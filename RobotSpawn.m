@@ -32,8 +32,6 @@ classdef RobotSpawn < handle
                 self.robotPoses = robotPoses;
                 self.robotType = robotType;
             end
-            % Initialise the log file
-            % L = log4matlab('logtest.log');
 
             self.workspaceDimensions = [-3, 4, -2, 2.5, 0, 2.5];
 
@@ -50,14 +48,16 @@ classdef RobotSpawn < handle
                 end
                 handles = findobj('Tag', self.robotModel{i}.name);
                 h = get(handles,'UserData');
-                h.link(i).Children.Faces = self.robotModel{i}.faces{1, 2};
-                h.link(i).Children.Vertices = self.robotModel{i}.points{1, 2};
-                h.link(i).Children.FaceVertexCData = C;
-                h.link(i).Children.FaceColor = 'interp';
-                % Store values in log file
-                % L.mlog = {L.DEBUG,'RobotSpawn',['h.link(i).Children.Vertices: ',num2str(h.link(i).Children.Vertices)]};
-                % L.mlog = {L.DEBUG,'RobotSpawn',['h.link(i).Children.Faces: ',num2str(h.link(i).Children.Faces)]};
-                % L.mlog = {L.DEBUG,'RobotSpawn',['h.link(i).Children.FaceVertexCData: ',num2str(h.link(i).Children.FaceVertexCData)]};
+                h.link(i+1).Children.Faces = self.robotModel{i}.faces{1, 2};
+                h.link(i+1).Children.Vertices = self.robotModel{i}.points{1, 2};
+                h.link(i+1).Children.FaceVertexCData = C;
+                h.link(i+1).Children.FaceColor = 'interp';
+
+                % Display sizes on command wndw
+                disp(['Faces: ', num2str(size(h.link(i).Children.Faces))]);
+                disp(['Vertices: ',num2str(size(h.link(i).Children.Vertices))]);
+                disp(['CData: ',num2str(size(h.link(i).Children.FaceVertexCData))]);
+
                 drawnow();
             end
 
@@ -88,15 +88,9 @@ classdef RobotSpawn < handle
                 name = 'Pencil';
             end
             [faceData,vertexData,colorData] = plyread(['3D Models/',name,'.ply'],'tri');
-            % VertCount = size(vertexData,1);
-            % midPoint = sum(vertexData)/VertCount;
-            % Verts = vertexData - repmat(midPoint,VertCount,1);
-            % Pose = eye(4);
             vertexColours = [colorData.vertex.red ...
                 , colorData.vertex.green ...
                 , colorData.vertex.blue]/255;
-            % Mesh_h = trisurf(faceData,Verts(:,1),Verts(:,2),Verts(:,3),'FaceVertexCData',...
-            %     vertexColours,'EdgeColor','interp');
             link1 = Link('alpha',0,'a',0,'d',0,'offset',0);
             model = SerialLink(link1,'name',[name,num2str(count)]);
 
