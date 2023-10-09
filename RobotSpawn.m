@@ -68,17 +68,17 @@ classdef RobotSpawn < handle
         end
 
 
-        function delete(self)
-            for index = 1:self.robotCount
-                handles = findobj('Tag', self.robotModel{index}.name);
-                h = get(handles,'UserData');
-                try delete(h.robot); end
-                try delete(h.wrist); end
-                try delete(h.link); end
-                try delete(h); end
-                try delete(handles); end
-            end
-        end
+        % function delete(self)
+        %     for index = 1:self.robotCount
+        %         handles = findobj('Tag', self.robotModel{index}.name);
+        %         h = get(handles,'UserData');
+        %         try delete(h.robot); end
+        %         try delete(h.wrist); end
+        %         try delete(h.link); end
+        %         try delete(h); end
+        %         try delete(handles); end
+        %     end
+        % end
     end
 
     methods (Static)

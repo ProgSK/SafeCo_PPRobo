@@ -1,15 +1,21 @@
 clear;
 clf;
 clc;
-pose = cell(1,1);
-pose{1} = eye(4);
-roobot = RobotSpawn('LinearUR3Link4',1,pose)
-handles = findobj('Tag', roobot.robotModel{1}.name);
-h = get(handles,'UserData');
-% axis auto
-% PlaceObject('3D Models/Pencil.PLY',[0,0,0])
-% [TRI,PTS,DATA] = plyread('3D Models/Pencil.PLY','tri');
-% model.faces = {TRI};
-% 
-% model.points = {PTS};
-% plot3d(model);
+axis equal
+hold on
+pose1{1} = transl(0.25,0,0);
+pose2{1} = transl(0.5,0,0);
+pose3{1} = transl(0.75,0,0);
+pose4{1} = transl(1,0,0);
+pose5{1} = transl(1.25,0,0);
+pose6{1} = transl(1.5,0,0);
+pose7{1} = transl(1.75,0,0);
+pose8{1} = transl(2,0,0);
+
+RobotSpawn('Pencil',1,pose1)
+RobotSpawn('Pen',1,pose2)
+RobotSpawn('Ruler',1,pose3)
+RobotSpawn('Calculator',1,pose4)
+RobotSpawn('ChemBook',1,pose5)
+RobotSpawn('Eraser',1,pose6)
+RobotSpawn('MathBook',1,pose7)
