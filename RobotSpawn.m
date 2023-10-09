@@ -48,10 +48,10 @@ classdef RobotSpawn < handle
                 end
                 handles = findobj('Tag', self.robotModel{i}.name);
                 h = get(handles,'UserData');
-                h.link(i+1).Children.Faces = self.robotModel{i}.faces{1, 2};
-                h.link(i+1).Children.Vertices = self.robotModel{i}.points{1, 2};
-                h.link(i+1).Children.FaceVertexCData = C;
-                h.link(i+1).Children.FaceColor = 'interp';
+                h.link(2).Children.Faces = self.robotModel{i}.faces{1, 2};
+                h.link(2).Children.Vertices = self.robotModel{i}.points{1, 2};
+                h.link(2).Children.FaceVertexCData = C;
+                h.link(2).Children.FaceColor = 'interp';
 
                 % Display sizes on command wndw
                 disp(['Faces: ', num2str(size(h.link(i).Children.Faces))]);
