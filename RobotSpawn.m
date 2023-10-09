@@ -54,9 +54,9 @@ classdef RobotSpawn < handle
                 h.link(2).Children.FaceColor = 'interp';
 
                 % Display sizes on command wndw
-                disp(['Faces: ', num2str(size(h.link(i).Children.Faces))]);
-                disp(['Vertices: ',num2str(size(h.link(i).Children.Vertices))]);
-                disp(['CData: ',num2str(size(h.link(i).Children.FaceVertexCData))]);
+                disp(['Faces: ', num2str(size(h.link(2).Children.Faces))]);
+                disp(['Vertices: ',num2str(size(h.link(2).Children.Vertices))]);
+                disp(['CData: ',num2str(size(h.link(2).Children.FaceVertexCData))]);
 
                 drawnow();
             end
