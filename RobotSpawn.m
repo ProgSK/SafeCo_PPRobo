@@ -48,12 +48,14 @@ classdef RobotSpawn < handle
                 end
                 handles = findobj('Tag', self.robotModel{i}.name);
                 h = get(handles,'UserData');
+
+                % Colours using vertices
                 h.link(2).Children.Faces = self.robotModel{i}.faces{1, 2};
                 h.link(2).Children.Vertices = self.robotModel{i}.points{1, 2};
                 h.link(2).Children.FaceVertexCData = C;
                 h.link(2).Children.FaceColor = 'interp';
 
-                % Display sizes on command wndw
+                % Display sizes on command wndw (vertices)
                 disp(['Faces: ', num2str(size(h.link(2).Children.Faces))]);
                 disp(['Vertices: ',num2str(size(h.link(2).Children.Vertices))]);
                 disp(['CData: ',num2str(size(h.link(2).Children.FaceVertexCData))]);
@@ -88,9 +90,11 @@ classdef RobotSpawn < handle
                 name = 'Pencil';
             end
             [faceData,vertexData,colorData] = plyread(['3D Models/',name,'.ply'],'tri');
+
             vertexColours = [colorData.vertex.red ...
                 , colorData.vertex.green ...
                 , colorData.vertex.blue]/255;
+
             link1 = Link('alpha',0,'a',0,'d',0,'offset',0);
             model = SerialLink(link1,'name',[name,num2str(count)]);
 
