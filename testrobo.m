@@ -1,11 +1,19 @@
 %% Serial Link test of pulse75 DH Parameters
-% Create the Pulse75 model
+% % Create the Pulse75 model
+% link(1) = Link([0 0.2325 0 pi/2 0]);
+% link(2) = Link([0 0 -0.375 0 0]);
+% link(3) = Link([0 0 -0.295 0 0]);
+% link(4) = Link([0 0.1205 0 pi/2 0]);
+% link(5) = Link([0 0.1711 0 -pi/2	0]);
+% link(6) = Link([0 0.1226 0 0 0]);
+
+% % Create the Pulse75 model
 link(1) = Link([0 0.2325 0 pi/2 0]);
 link(2) = Link([0 0 -0.375 0 0]);
 link(3) = Link([0 0 -0.295 0 0]);
-link(4) = Link([0 0.1205 0 pi/2 0]);
-link(5) = Link([0 0.1711 0 -pi/2	0]);
-link(6) = Link([0 0.1226 0 0 0]);
+link(4) = Link([0.1205 0 0 pi/2 0]);
+link(5) = Link([0.1711 0 0 -pi/2 0]);
+link(6) = Link([0.1226 0 0 0 0]);
 
 % Incorporate joint limits
 link(1).qlim = [-360 360]*pi/180;
