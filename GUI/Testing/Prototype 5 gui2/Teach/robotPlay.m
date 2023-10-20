@@ -205,4 +205,3 @@ uiwait(helpdlg('Examine the figures, then click OK to finish.'));
 % 
 % 
 % uiwait(helpdlg('Examine the figures, then click OK to finish.'));
-% 
