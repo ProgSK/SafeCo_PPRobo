@@ -148,25 +148,61 @@ function btn_inverse_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-
+% grabbing positions from user input
 pX = str2double(handles.pos_X.String);
 pY = str2double(handles.pos_Y.String);
 pZ = str2double(handles.pos_Z.String);
 
+% calling in the robot
 r = Pulse75;
+%robo2r = Pulse75(transl(0.5,0,0));
 
+% location of end effector given by user
 locationTR = transl(pX,pY,pZ);
+%robo2locationTR = transl(pX,pY,pZ);
+
 q = r.model.ikine(locationTR,'q0',[0 0 0 0 0 0],'mask',[1 1 1 1 0 0]);
+%robo2q = robo2r.model.ikine(robo2locationTR,'q0',[0 0 0 0 0 0],'mask',[1 1 1 1 0 0]);
+
 steps = 165;
+%robo2steps = 165;
+
 q0 = r.model.getpos();
+%robo2q0 = robo2r.model.getpos();
+
 qMatrix = jtraj(q0,q,steps);
+%robo2qMatrix = jtraj(robo2q0,robo2q,robo2steps);
 
+% animate 
 for i = 1:length(qMatrix)
-    
     r.model.animate(qMatrix(i,:)); % animate
-
     drawnow();
-
 end
+
+% for i = 1:length(robo2qMatrix)
+%     robo2r.model.animate(robo2qMatrix(i,:)); % animate
+%     drawnow();
+% end
+
 uiwait(helpdlg('Examine the figures, then click OK to finish.'));
 
+%% second
+% % calling in the robot
+% r = UR3(transl(0.5,0,0));
+% 
+% % location of end effector given by user
+% locationTR = transl(pX,pY,pZ);
+% q = r.model.ikine(locationTR,'q0',[0 0 0 0 0 0],'mask',[1 1 1 1 0 0]);
+% steps = 165;
+% q0 = r.model.getpos();
+% qMatrix = jtraj(q0,q,steps);
+% 
+% % animate 
+% for i = 1:length(qMatrix)
+%     r.model.animate(qMatrix(i,:)); % animate
+%     drawnow();
+% end
+% 
+% 
+% uiwait(helpdlg('Examine the figures, then click OK to finish.'));
+% 
