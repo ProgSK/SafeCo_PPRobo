@@ -52,6 +52,7 @@ function robotPlay_OpeningFcn(hObject, eventdata, handles, varargin)
 % handles    structure with handles and user data (see GUIDATA)
 % varargin   command line arguments to robotPlay (see VARARGIN)
 
+
 % Choose default command line output for robotPlay
 handles.output = hObject;
 
@@ -60,6 +61,7 @@ guidata(hObject, handles);
 
 % UIWAIT makes robotPlay wait for user response (see UIRESUME)
 % uiwait(handles.figure1);
+
 
 
 % --- Outputs from this function are returned to the command line.
@@ -71,6 +73,14 @@ function varargout = robotPlay_OutputFcn(hObject, eventdata, handles)
 
 % Get default command line output from handles structure
 varargout{1} = handles.output;
+
+
+% calling in the robots
+%waitMsg = msgbox("Workspace loading, please wait.");
+r1 = Pulse75;
+r2 = Pulse75(transl(0,-0.5,0));
+%delete(waitMsg);
+uiwait(helpdlg('Examine the figures, then click OK to CLOSE.'));
 
 
 
@@ -144,9 +154,12 @@ end
 
 % --- Executes on button press in btn_inverse.
 function btn_inverse_Callback(hObject, eventdata, handles)
+
 % hObject    handle to btn_inverse (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+
+cla
 
 % grabbing positions from user input
 pX = str2double(handles.pos_X.String);
@@ -173,9 +186,11 @@ q0 = r.model.getpos();
 qMatrix = jtraj(q0,q,steps);
 %robo2qMatrix = jtraj(robo2q0,robo2q,robo2steps);
 
+
 % animate 
 for i = 1:length(qMatrix)
     r.model.animate(qMatrix(i,:)); % animate
+    
     drawnow();
 end
 
