@@ -75,7 +75,6 @@ varargout{1} = handles.output;
 
 % --- Executes on button press in btn_teachRobots.
 function btn_teachRobots_Callback(hObject, eventdata, handles)
-close all
 robotPlay
 
 
