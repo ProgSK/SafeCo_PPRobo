@@ -105,21 +105,21 @@ function animate(robot, qq)
                             % commented out.
                             scicEdit = true;
                             
-                            if ~scicEdit                
-                                assert( q(L) >= 0, 'Prismatic joint length must be >= 0'); % link lengths must be positive
-
-                                % if scale factor is zero the matrix is singular and MATLAB complains
-                                %  so we make it no smaller than eps
-
-                                set(h.pjoint(L), 'Matrix', diag([1 1 max(eps, q(L)) 1]));
-                            else
-                                if q(L) > 0
-                                    set(h.pjoint(L), 'Matrix', diag([1 1 q(L) 1]));
-                                else
-                                    % if length is zero the matrix is singular and MATLAB complains
-                                    %error('Prismatic length must be > 0');
-                                end
-                            end
+                            % if ~scicEdit                
+                            %     assert( q(L) >= 0, 'Prismatic joint length must be >= 0'); % link lengths must be positive
+                            % 
+                            %     % if scale factor is zero the matrix is singular and MATLAB complains
+                            %     %  so we make it no smaller than eps
+                            % 
+                            %     set(h.pjoint(L), 'Matrix', diag([1 1 max(eps, q(L)) 1]));
+                            % else
+                            %     if q(L) > 0
+                            %         set(h.pjoint(L), 'Matrix', diag([1 1 q(L) 1]));
+                            %     else
+                            %         % if length is zero the matrix is singular and MATLAB complains
+                            %         %error('Prismatic length must be > 0');
+                            %     end
+                            % end
 
                         end
                         
