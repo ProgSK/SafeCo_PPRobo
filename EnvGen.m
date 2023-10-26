@@ -2,51 +2,103 @@
 
 % Global Axis for Models
     axis on;
-    axis ([-4.4 4.4 -4.4 4.4 0 4]);
+    workspace = [-4.4 4.4 -4.4 4.4 0 4];
     axis auto
     view(3);
 
-% % Global Variables for Modular Position Co-ods
-    % coodArray = [0,0,0]; % Modular Variable Values (According to Pose Values Assigned during Assessment)
-    % rOrigin = transl([coodArray(1),coodArray(2),coodArray(3)+0.5]); % Accounting for Relocation of Robot on Mounting Table
+% Global Variables for Modular Position Co-ods
+    rOrigin75 = transl([-1.8,1.3,0.945]); % Accounting for Relocation of Robot on Mounting Table
+    % DBrOrigin = transl([X,Y,Z]); % Accounting for Relocation of Robot on Mounting Table
 
 % Called Functions
     envGen() % Function to Generate Environment & all its Safety Features
-    % envGen(coodArray) % For modular co-ordinate array
 
 % Robot Created
-    robo75 = Pulse75(); % Creating the Robot
-    % robo75 = Pulse75(rOrigin); % Creating the Robot with specific origin point
+    % robo75 = Pulse75();
+    robo75 = Pulse75(rOrigin75); % Creating the Pulse75 with specific origin point
+    % roboDB = DoBot(DBrOrigin); % Creating the DoBot with specific origin point
 
+
+%% Load pre-existing mat files
+% Specify the name of the specific .mat file you're looking for (purely for debugging)
+spawnFileName = 'spawnData.mat';
+if exist(spawnFileName,'file') == 2
+    % The file does exist
+    disp(['The file ', spawnFileName, ' was found in the current directory.']);
+    prompt = "Do you want to keep this file? Y/N [Y]: ";
+    txt = input(prompt,"s");
+    if isempty(txt)
+        txt = 'Y';
+    else
+        txt == 'N'
+        delete spawnData.mat
+    end
+end
+    
 
 %% OBJECT POSE ALLOCATION
-% 
-% bRotationX = trotx(pi); 
-% bRotationZ = trotz(pi/2);
-% 
-% % STEP 1: Assigning the Initial Pose Values for the various loads (position of origin before animated movement)
-%     bInitpose = cell(1,9);
-%     bInitpose{1} = transl(coodArray(1)-0.1,coodArray(2)+0.5,coodArray(3)+0.535) * bRotationX;
-%     bInitpose{4} = transl(coodArray(1)-0.2,coodArray(2)+0.5,coodArray(3)+0.535) * bRotationX;
-%     bInitpose{7} = transl(coodArray(1)-0.3,coodArray(2)+0.5,coodArray(3)+0.535) * bRotationX;
-%     bInitpose{2} = transl(coodArray(1)-0.4,coodArray(2)+0.5,coodArray(3)+0.535) * bRotationX;
-%     bInitpose{5} = transl(coodArray(1)-0.5,coodArray(2)+0.5,coodArray(3)+0.535) * bRotationX;
-%     bInitpose{8} = transl(coodArray(1)-0.6,coodArray(2)+0.5,coodArray(3)+0.535) * bRotationX;
-%     bInitpose{3} = transl(coodArray(1)-0.7,coodArray(2)+0.5,coodArray(3)+0.535) * bRotationX;
-%     bInitpose{6} = transl(coodArray(1)-0.8,coodArray(2)+0.5,coodArray(3)+0.535) * bRotationX;
-%     bInitpose{9} = transl(coodArray(1)-0.9,coodArray(2)+0.5,coodArray(3)+0.535) * bRotationX;
-% 
-% % STEP 2: Assigning the Destination Pose Values for the various loads (position after movement is completed)
-%     bDestpose = cell(1,9);
-%     bDestpose{1} = transl(coodArray(1)-0.3,coodArray(2)-0.45,coodArray(3)+0.535) * bRotationX * bRotationZ;
-%     bDestpose{4} = transl(coodArray(1)-0.435,coodArray(2)-0.45,coodArray(3)+0.535) * bRotationX * bRotationZ;
-%     bDestpose{7} = transl(coodArray(1)-0.570,coodArray(2)-0.45,coodArray(3)+0.535) * bRotationX * bRotationZ;
-%     bDestpose{2} = transl(coodArray(1)-0.3,coodArray(2)-0.45,coodArray(3)+0.57) * bRotationX * bRotationZ;
-%     bDestpose{5} = transl(coodArray(1)-0.435,coodArray(2)-0.45,coodArray(3)+0.57) * bRotationX * bRotationZ;
-%     bDestpose{8} = transl(coodArray(1)-0.570,coodArray(2)-0.45,coodArray(3)+0.57) * bRotationX * bRotationZ;
-%     bDestpose{3} = transl(coodArray(1)-0.3,coodArray(2)-0.45,coodArray(3)+0.605) * bRotationX * bRotationZ;
-%     bDestpose{6} = transl(coodArray(1)-0.435,coodArray(2)-0.45,coodArray(3)+0.605) * bRotationX * bRotationZ;
-%     bDestpose{9} = transl(coodArray(1)-0.570,coodArray(2)-0.45,coodArray(3)+0.605) * bRotationX * bRotationZ;
+ 
+% STEP 1: Assigning the Initial Pose Values for the various loads (position of origin before animated movement)
+    % pencilPose{1} = transl(-0.57,+0.2,+0.2);
+    penPose{1} = transl(-0.3,1.5,1);
+    % rulerPose{1} = transl(-0.70,+0.35,+0);
+    % calcPose{1} = transl(-0.55,+0.35,+0);
+    % eraserPose{1} = transl(-0.45,+0.35,+0);
+    % compassPose{1} = transl(-0.55,+0.25,+0);
+    bookChemPose{1} = transl(-1.37,1.875,1.5);
+    bookMathPose{1} = transl(-1.52,1.875,1.5);
+    bookEngPose{1} = transl(-1.67,1.875,1.5);
+    % keyboardPose{1} = transl(0,0,0);
+    % mousePose{1} = transl(+0.5,+0.25,+0);
+    % ps5ControllerPose{1} = transl(+0.7,+0.25,+0);
+
+% STEP 2: Assigning the Destination Pose Values for the various loads (position after movement is completed)
+    % pencilFinalPose{1} = transl(-0.37,-0.35,+0.2);
+    % penFinalPose{1} = transl(-0.75,-0.35,+0);
+    % rulerFinalPose{1} = transl(-0.70,-0.35,+0);
+    % calcFinalPose{1} = transl(-0.55,-0.35,+0);
+    % eraserFinalPose{1} = transl(-0.45,-0.35,+0);
+    % compassFinalPose{1} = transl(-0.55,-0.25,+0);
+    % bookChemFinalPose{1} = transl(-0.25,-0.3,+0)*l_RotZ;
+    % bookMathFinalPose{1} = transl(+0,-0.3,+0)*l_RotZ);
+    % bookEngFinalPose{1} = transl(+0.25,-0.3,+0)*l_RotZ;
+    % keyboardFinalPose{1} = transl(-0.6,-0,+0);
+    % mouseFinalPose{1} = transl(+0.5,-0.25,+0);
+    % ps5ControllerFinalPose{1} = transl(+0.7,-0.25,+0);
+
+%% OBJECT SPAWN-IN
+
+if exist(spawnFileName,'file') == 2
+    load spawnData.mat % Load pre-existing objects
+    % plots the objects (with no colour, PURELY FOR DEBUGGING PURPOSES)
+    % plot3d(pencilObj.robotModel{1},0,'workspace',workspace,'view',[30,30],'delay',0,'noarrow','nowrist','notiles');
+    plot3d(penObj.robotModel{1},0,'workspace',workspace,'view',[30,30],'delay',0,'noarrow','nowrist','notiles');
+    % plot3d(rulerObj.robotModel{1},0,'workspace',workspace,'view',[30,30],'delay',0,'noarrow','nowrist','notiles');
+    % plot3d(calcObj.robotModel{1},0,'workspace',workspace,'view',[30,30],'delay',0,'noarrow','nowrist','notiles');
+    % plot3d(eraserObj.robotModel{1},0,'workspace',workspace,'view',[30,30],'delay',0,'noarrow','nowrist','notiles');
+    plot3d(chemBookObj.robotModel{1},0,'workspace',workspace,'view',[30,30],'delay',0,'noarrow','nowrist','notiles');
+    plot3d(mathBookObj.robotModel{1},0,'workspace',workspace,'view',[30,30],'delay',0,'noarrow','nowrist','notiles');
+    plot3d(engBookObj.robotModel{1},0,'workspace',workspace,'view',[30,30],'delay',0,'noarrow','nowrist','notiles');
+    % plot3d(compassObj.robotModel{1},0,'workspace',workspace,'view',[30,30],'delay',0,'noarrow','nowrist','notiles');
+    % plot3d(keyboardObj.robotModel{1},0,'workspace',workspace,'view',[30,30],'delay',0,'noarrow','nowrist','notiles');
+    % plot3d(mouseObj.robotModel{1},0,'workspace',workspace,'view',[30,30],'delay',0,'noarrow','nowrist','notiles');
+    % plot3d(ps5ControllerObj.robotModel{1},0,'workspace',workspace,'view',[30,30],'delay',0,'noarrow','nowrist','notiles');
+else
+    % pencilObj = RobotSpawn('3D Models/Pencil',1,pencilPose);
+    penObj = RobotSpawn('Pen',1,penPose);
+    % rulerObj = RobotSpawn('3D Models/Ruler',1,rulerPose);
+    % calcObj = RobotSpawn('3D Models/Calculator',1,calcPose);
+    % eraserObj = RobotSpawn('3D Models/Eraser',1,eraserPose);
+    chemBookObj = RobotSpawn('BookChem',1,bookChemPose);
+    mathBookObj = RobotSpawn('BookMath',1,bookMathPose);
+    engBookObj = RobotSpawn('BookEng',1,bookEngPose);
+    % compassObj = RobotSpawn('3D Models/Compass',1,compassPose);
+    % keyboardObj = RobotSpawn('3D Models/Keyboard',1,keyboardPose);
+    % mouseObj = RobotSpawn('3D Models/Mouse',1,mousePose);
+    % ps5ControllerObj = RobotSpawn('3D Models/PS5_Controller',1,ps5ControllerPose);
+    % save spawnData.mat pencilObj penObj rulerObj calcObj eraserObj chemBookObj mathBookObj engBookObj compassObj keyboardObj mouseObj ps5ControllerObj
+    save spawnData.mat penObj engBookObj chemBookObj mathBookObj
+end
 
     
 %% ENVIRONMENT GENERATION
@@ -54,7 +106,7 @@
 function envGen()
 
     % STEP 1: Create/Import the Ground/Floor Texture Map
-        cornerPoint = 4.5;
+        cornerPoint = 2.5;
         surf([-cornerPoint,-cornerPoint ; cornerPoint,cornerPoint] ...
             ,[-cornerPoint,cornerPoint ; -cornerPoint,cornerPoint] ...
             ,[0.01,0.01 ; 0.01,0.01] ...
@@ -62,32 +114,24 @@ function envGen()
             ,'FaceColor','texturemap');
         hold on;
 
-        % For consideration of modular co-ordinate array
-        % cornerPoint = 4.5;
-        % surf([-cornerPoint+coodArray(1),-cornerPoint+coodArray(1) ; cornerPoint+coodArray(1),cornerPoint+coodArray(1)] ...
-        %     ,[-cornerPoint+coodArray(2),cornerPoint+coodArray(2) ; -cornerPoint+coodArray(2),cornerPoint+coodArray(2)] ...
-        %     ,[0.01+coodArray(3),0.01+coodArray(3) ; 0.01+coodArray(3),0.01+coodArray(3)] ...
-        %     ,'CData',imread('3D Models/FloorDesign.jpg') ...
-        %     ,'FaceColor','texturemap');
-        % hold on;
-
     % STEP 2: Create/Import the Room Model
         PlaceObject('3D Models/RoomDesign.ply',[0,0,0]);
-        PlaceObject('3D Models/BedDesign.ply',[-2,-2.55,0]);
+        PlaceObject('3D Models/BedDesign.ply',[-1,-1.2,0]);
 
     % STEP 3: Create/Import the Desktop Model/s
-        PlaceObject('3D Models/DeskDesign.ply',[-0.75,2.75,0]);
-        PlaceObject('3D Models/ChairDesign.ply',[-0.5,0.5,0]);
-        PlaceObject('3D Models/MonitorDesign.ply',[1,3,1.87]);
-        PlaceObject('3D Models/EstopDesign.ply',[-2.1,2,1.8]);
+        PlaceObject('3D Models/DeskDesign.ply',[-0.75,1.3,0]);
+        PlaceObject('3D Models/ChairDesign.ply',[-0.7,0.8,0]);
+        PlaceObject('3D Models/MonitorDesign.ply',[0.2,1.5,0.94]);
+        PlaceObject('3D Models/EstopDesign.ply',[-1.4,0.95,0.85]);
+        PlaceObject('3D Models/HolderDesign.ply',[-0.3,1.5,0.94]);
+        PlaceObject('3D Models/BottleDesign.ply',[-1,1,0.9]);
 
     % STEP 4: Create/Import Shelf Model/s
-        % PlaceObject('3D Models/WShelfDesign.ply',[0,0,0]);
-
+        PlaceObject('3D Models/WShelfDesign.ply',[-1.5,1.9,1.5]);
         % PlaceObject('3D Models/FShelfDesign.ply',[0,0,0]); If wall shelf isn't good enough
 
     % STEP 5: Create/Import Human Model
-        PlaceObject('3D Models/HumanDesign.ply',[3,-3,0]);
-
+        PlaceObject('3D Models/HumanDesign.ply',[1.5,-1.5,0]);
+        
 end
 
