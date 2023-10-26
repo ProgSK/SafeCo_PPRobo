@@ -14,12 +14,13 @@ steps = t/deltaT;   % No. of steps for simulation = 50 (Allows for use of zeros 
 delta = 2*pi/steps; % Small angle change
 epsilon = 0.1;      % Threshold value for manipulability/Damped Least Squares
 W = diag([1 1 1 0.1 0.1 0.1]);    % Weighting matrix for the velocity vector
-
+% robot.model.qlim(2,:) = [-180 180]*pi/180;
 % initialTR = [0 -0.4 0.6];
 % goalTR = [0.5 -0.4 0.7];
 
 initialTR = initialPose(1:3,4)';
 goalTR = finalPose(1:3,4)';
+eulXYZ = rotm2eul(finalPose(1:3,1:3),'XYZ');
 
 % 1.2) Allocate array data
 m = zeros(steps,1);             % Array for Measure of Manipulability
@@ -37,7 +38,7 @@ for i=1:steps
     x(1,i) = (1-s(i))*initialTR(1) + s(i)*goalTR(1); % Points in x
     x(2,i) = (1-s(i))*initialTR(2) + s(i)*goalTR(2); % Points in y
     x(3,i) = (1-s(i))*initialTR(3) + s(i)*goalTR(3); % Points in z
-    theta(1,i) = pi;                 % Roll angle
+    theta(1,i) = -pi/2;                 % Roll angle
     theta(2,i) = 0;                 % Pitch angle
     theta(3,i) = 0;                 % Yaw angle
 end
@@ -97,12 +98,32 @@ for k = 1:length(qMatrix)
     endEffectorPose = robot.model.fkine(robot.model.getpos());
 
     % While the robot is moving, animate the obj movement
-    obj.robotModel{1}.base = endEffectorPose.T; %* transl(0,0,0.10);
+    % obj.robotModel{1}.base = endEffectorPose.T; %* transl(0,0,0.10);
+    obj.robotModel{1}.base.t = endEffectorPose.t;
     obj.robotModel{1}.animate(0);
     drawnow();
-    % pause(0.1);   % Slow-mo
+    pause(0.1);   % Slow-mo
 end
 disp(['Plot took ', num2str(toc), 'seconds'])
+
+figure(2)
+subplot(2,1,1)
+plot(positionError'*1000,'LineWidth',1)
+refline(0,0)
+xlabel('Step')
+ylabel('Position Error (mm)')
+legend('X-Axis','Y-Axis','Z-Axis')
+
+subplot(2,1,2)
+plot(angleError','LineWidth',1)
+refline(0,0)
+xlabel('Step')
+ylabel('Angle Error (rad)')
+legend('Roll','Pitch','Yaw')
+figure(5)
+plot(m,'k','LineWidth',1)
+refline(0,epsilon)
+title('Manipulability')
 end
 
 %% Plots for visualising manipulability
