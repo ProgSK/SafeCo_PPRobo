@@ -45,9 +45,9 @@ end
     % calcPose{1} = transl(-0.55,+0.35,+0);
     % eraserPose{1} = transl(-0.45,+0.35,+0);
     % compassPose{1} = transl(-0.55,+0.25,+0);
-    bookChemPose{1} = transl(-1.37,1.875,1.5);
-    bookMathPose{1} = transl(-1.52,1.875,1.5);
-    bookEngPose{1} = transl(-1.67,1.875,1.5);
+    bookChemPose{1} = transl(-0.85,1.755,1.5);
+    bookMathPose{1} = transl(-0.95,1.755,1.5);
+    bookEngPose{1} = transl(-1.05,1.755,1.5);
     % keyboardPose{1} = transl(0,0,0);
     % mousePose{1} = transl(+0.5,+0.25,+0);
     % ps5ControllerPose{1} = transl(+0.7,+0.25,+0);
