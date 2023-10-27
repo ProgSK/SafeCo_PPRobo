@@ -7,8 +7,8 @@
     view(3);
 
 % Global Variables for Modular Position Co-ods
-    rOrigin75 = transl([-1.8,1.3,0.945]); % Accounting for Relocation of Robot on Mounting Table
-    % DBrOrigin = transl([X,Y,Z]); % Accounting for Relocation of Robot on Mounting Table
+    rOrigin75 = transl([-1.9,1.8,0.945]); % Accounting for Relocation of Robot on Mounting Table
+    % rOriginDB = transl([0,0,0.945]); % Accounting for Relocation of Robot on Mounting Table
 
 % Called Functions
     envGen() % Function to Generate Environment & all its Safety Features
@@ -16,7 +16,7 @@
 % Robot Created
     % robo75 = Pulse75();
     robo75 = Pulse75(rOrigin75); % Creating the Pulse75 with specific origin point
-    % roboDB = DoBot(DBrOrigin); % Creating the DoBot with specific origin point
+    % roboDB = DobotMagician(rOriginDB); % Creating the DoBot with specific origin point
 
 
 %% Load pre-existing mat files
@@ -40,17 +40,17 @@ end
  
 % STEP 1: Assigning the Initial Pose Values for the various loads (position of origin before animated movement)
     % pencilPose{1} = transl(-0.57,+0.2,+0.2);
-    penPose{1} = transl(-0.3,1.5,1);
+    penPose{1} = transl(0.2,2,1);
     % rulerPose{1} = transl(-0.70,+0.35,+0);
     % calcPose{1} = transl(-0.55,+0.35,+0);
     % eraserPose{1} = transl(-0.45,+0.35,+0);
     % compassPose{1} = transl(-0.55,+0.25,+0);
-    bookChemPose{1} = transl(-0.85,1.755,1.5);
-    bookMathPose{1} = transl(-0.95,1.755,1.5);
-    bookEngPose{1} = transl(-1.05,1.755,1.5);
+    bookChemPose{1} = transl(-0.95,2.255,1.5);
+    bookMathPose{1} = transl(-1.05,2.255,1.5);
+    bookEngPose{1} = transl(-1.15,2.255,1.5);
     % keyboardPose{1} = transl(0,0,0);
     % mousePose{1} = transl(+0.5,+0.25,+0);
-    % ps5ControllerPose{1} = transl(+0.7,+0.25,+0);
+    ps5ControllerPose{1} = transl(-1.15,2.4,1.67);
 
 % STEP 2: Assigning the Destination Pose Values for the various loads (position after movement is completed)
     % pencilFinalPose{1} = transl(-0.37,-0.35,+0.2);
@@ -82,22 +82,22 @@ if exist(spawnFileName,'file') == 2
     % plot3d(compassObj.robotModel{1},0,'workspace',workspace,'view',[30,30],'delay',0,'noarrow','nowrist','notiles');
     % plot3d(keyboardObj.robotModel{1},0,'workspace',workspace,'view',[30,30],'delay',0,'noarrow','nowrist','notiles');
     % plot3d(mouseObj.robotModel{1},0,'workspace',workspace,'view',[30,30],'delay',0,'noarrow','nowrist','notiles');
-    % plot3d(ps5ControllerObj.robotModel{1},0,'workspace',workspace,'view',[30,30],'delay',0,'noarrow','nowrist','notiles');
+    plot3d(ps5ControllerObj.robotModel{1},0,'workspace',workspace,'view',[30,30],'delay',0,'noarrow','nowrist','notiles');
 else
-    % pencilObj = RobotSpawn('3D Models/Pencil',1,pencilPose);
+    % pencilObj = RobotSpawn('Pencil',1,pencilPose);
     penObj = RobotSpawn('Pen',1,penPose);
-    % rulerObj = RobotSpawn('3D Models/Ruler',1,rulerPose);
-    % calcObj = RobotSpawn('3D Models/Calculator',1,calcPose);
-    % eraserObj = RobotSpawn('3D Models/Eraser',1,eraserPose);
+    % rulerObj = RobotSpawn('Ruler',1,rulerPose);
+    % calcObj = RobotSpawn('Calculator',1,calcPose);
+    % eraserObj = RobotSpawn('Eraser',1,eraserPose);
     chemBookObj = RobotSpawn('BookChem',1,bookChemPose);
     mathBookObj = RobotSpawn('BookMath',1,bookMathPose);
     engBookObj = RobotSpawn('BookEng',1,bookEngPose);
-    % compassObj = RobotSpawn('3D Models/Compass',1,compassPose);
-    % keyboardObj = RobotSpawn('3D Models/Keyboard',1,keyboardPose);
-    % mouseObj = RobotSpawn('3D Models/Mouse',1,mousePose);
-    % ps5ControllerObj = RobotSpawn('3D Models/PS5_Controller',1,ps5ControllerPose);
+    % compassObj = RobotSpawn('Compass',1,compassPose);
+    % keyboardObj = RobotSpawn('Keyboard',1,keyboardPose);
+    % mouseObj = RobotSpawn('Mouse',1,mousePose);
+    ps5ControllerObj = RobotSpawn('PS5_Controller',1,ps5ControllerPose);
     % save spawnData.mat pencilObj penObj rulerObj calcObj eraserObj chemBookObj mathBookObj engBookObj compassObj keyboardObj mouseObj ps5ControllerObj
-    save spawnData.mat penObj engBookObj chemBookObj mathBookObj
+    save spawnData.mat penObj engBookObj chemBookObj mathBookObj ps5ControllerObj
 end
 
     
@@ -119,15 +119,15 @@ function envGen()
         PlaceObject('3D Models/BedDesign.ply',[-1,-1.2,0]);
 
     % STEP 3: Create/Import the Desktop Model/s
-        PlaceObject('3D Models/DeskDesign.ply',[-0.75,1.3,0]);
-        PlaceObject('3D Models/ChairDesign.ply',[-0.7,0.8,0]);
-        PlaceObject('3D Models/MonitorDesign.ply',[0.2,1.5,0.94]);
-        PlaceObject('3D Models/EstopDesign.ply',[-1.4,0.95,0.85]);
-        PlaceObject('3D Models/HolderDesign.ply',[-0.3,1.5,0.94]);
-        PlaceObject('3D Models/BottleDesign.ply',[-1,1,0.9]);
+        PlaceObject('3D Models/DeskDesign.ply',[-0.5,1.8,0]);
+        PlaceObject('3D Models/ChairDesign.ply',[-0.5,1.3,0]);
+        PlaceObject('3D Models/MonitorDesign.ply',[0.7,2,0.94]);
+        PlaceObject('3D Models/EstopDesign.ply',[-1.4,1.45,0.85]);
+        PlaceObject('3D Models/HolderDesign.ply',[0.2,2,0.94]);
+        PlaceObject('3D Models/BottleDesign.ply',[-1,1.6,0.9]);
 
     % STEP 4: Create/Import Shelf Model/s
-        PlaceObject('3D Models/WShelfDesign.ply',[-1.5,1.9,1.5]);
+        PlaceObject('3D Models/WShelfDesign.ply',[-1.05,2.4,1.5]);
         % PlaceObject('3D Models/FShelfDesign.ply',[0,0,0]); If wall shelf isn't good enough
 
     % STEP 5: Create/Import Human Model
