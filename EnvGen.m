@@ -39,12 +39,12 @@ end
 %% OBJECT POSE ALLOCATION
  
 % STEP 1: Assigning the Initial Pose Values for the various loads (position of origin before animated movement)
-    pencilPose{1} = transl(0.23,2,1);
-    penPose{1} = transl(0.2,2,1);
-    % rulerPose{1} = transl(-0.70,+0.35,+0);
-    % calcPose{1} = transl(-0.55,+0.35,+0);
+    pencilPose{1} = transl(0.23,2,1.03);
+    penPose{1} = transl(0.2,2,1.01);
+    rulerPose{1} = transl(0.2,2.03,1.02);
+    calcPose{1} = transl(0.05,2,0.94);
     % eraserPose{1} = transl(-0.45,+0.35,+0);
-    % compassPose{1} = transl(-0.55,+0.25,+0);
+    compassPose{1} = transl(0.155,2,1.071);
     bookChemPose{1} = transl(-0.95,2.255,1.5);
     bookMathPose{1} = transl(-1.05,2.255,1.5);
     bookEngPose{1} = transl(-1.15,2.255,1.5);
@@ -73,31 +73,31 @@ if exist(spawnFileName,'file') == 2
     % plots the objects (with no colour, PURELY FOR DEBUGGING PURPOSES)
     plot3d(pencilObj.robotModel{1},0,'workspace',workspace,'view',[30,30],'delay',0,'noarrow','nowrist','notiles');
     plot3d(penObj.robotModel{1},0,'workspace',workspace,'view',[30,30],'delay',0,'noarrow','nowrist','notiles');
-    % plot3d(rulerObj.robotModel{1},0,'workspace',workspace,'view',[30,30],'delay',0,'noarrow','nowrist','notiles');
-    % plot3d(calcObj.robotModel{1},0,'workspace',workspace,'view',[30,30],'delay',0,'noarrow','nowrist','notiles');
+    plot3d(rulerObj.robotModel{1},0,'workspace',workspace,'view',[30,30],'delay',0,'noarrow','nowrist','notiles');
+    plot3d(calcObj.robotModel{1},0,'workspace',workspace,'view',[30,30],'delay',0,'noarrow','nowrist','notiles');
     % plot3d(eraserObj.robotModel{1},0,'workspace',workspace,'view',[30,30],'delay',0,'noarrow','nowrist','notiles');
     plot3d(chemBookObj.robotModel{1},0,'workspace',workspace,'view',[30,30],'delay',0,'noarrow','nowrist','notiles');
     plot3d(mathBookObj.robotModel{1},0,'workspace',workspace,'view',[30,30],'delay',0,'noarrow','nowrist','notiles');
     plot3d(engBookObj.robotModel{1},0,'workspace',workspace,'view',[30,30],'delay',0,'noarrow','nowrist','notiles');
-    % plot3d(compassObj.robotModel{1},0,'workspace',workspace,'view',[30,30],'delay',0,'noarrow','nowrist','notiles');
+    plot3d(compassObj.robotModel{1},0,'workspace',workspace,'view',[30,30],'delay',0,'noarrow','nowrist','notiles');
     plot3d(keyboardObj.robotModel{1},0,'workspace',workspace,'view',[30,30],'delay',0,'noarrow','nowrist','notiles');
     plot3d(mouseObj.robotModel{1},0,'workspace',workspace,'view',[30,30],'delay',0,'noarrow','nowrist','notiles');
     plot3d(ps5ControllerObj.robotModel{1},0,'workspace',workspace,'view',[30,30],'delay',0,'noarrow','nowrist','notiles');
 else
     pencilObj = RobotSpawn('Pencil',1,pencilPose);
     penObj = RobotSpawn('Pen',1,penPose);
-    % rulerObj = RobotSpawn('Ruler',1,rulerPose);
-    % calcObj = RobotSpawn('Calculator',1,calcPose);
+    rulerObj = RobotSpawn('Ruler',1,rulerPose);
+    calcObj = RobotSpawn('Calculator',1,calcPose);
     % eraserObj = RobotSpawn('Eraser',1,eraserPose);
     chemBookObj = RobotSpawn('BookChem',1,bookChemPose);
     mathBookObj = RobotSpawn('BookMath',1,bookMathPose);
     engBookObj = RobotSpawn('BookEng',1,bookEngPose);
-    % compassObj = RobotSpawn('Compass',1,compassPose);
+    compassObj = RobotSpawn('Compass',1,compassPose);
     keyboardObj = RobotSpawn('Keyboard',1,keyboardPose);
     mouseObj = RobotSpawn('Mouse',1,mousePose);
     ps5ControllerObj = RobotSpawn('PS5_Controller',1,ps5ControllerPose);
     % save spawnData.mat pencilObj penObj rulerObj calcObj eraserObj chemBookObj mathBookObj engBookObj compassObj keyboardObj mouseObj ps5ControllerObj
-    save spawnData.mat pencilObj penObj engBookObj chemBookObj mathBookObj ps5ControllerObj keyboardObj mouseObj
+    save spawnData.mat pencilObj penObj engBookObj chemBookObj mathBookObj ps5ControllerObj keyboardObj mouseObj rulerObj compassObj calcObj
 end
 
     
