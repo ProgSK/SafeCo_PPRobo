@@ -3,7 +3,7 @@
 % Further updated by Sully for 7 DOF
 
 % Lab 9 - Question 1 - Resolved Motion Rate Control in 6DOF
-function animateRMRC(robot,obj,initialPose,finalPose,q0)
+function animateRMRC(robot,finger1,finger2,obj,initialPose,finalPose,q0)
 % 1.1) Set parameters for the simulation
 r = robot;        % Load robot model
 % r = Pulse75;
@@ -96,13 +96,27 @@ plot3(x(1,:),x(2,:),x(3,:),'k.','LineWidth',1)
 for k = 1:length(qMatrix)
     model.animate(qMatrix(k,:));
     endEffectorPose = robot.model.fkine(robot.model.getpos());
+    
+    if obj == 0
+        % Do nothing
+    else
+        % While the robot is moving, animate the obj movement
+        % obj.robotModel{1}.base = endEffectorPose.T; %* transl(0,0,0.10);
+        obj.robotModel{1}.base.t = endEffectorPose.t;
+        obj.robotModel{1}.animate(0);
+    end
 
-    % While the robot is moving, animate the obj movement
-    % obj.robotModel{1}.base = endEffectorPose.T; %* transl(0,0,0.10);
-    obj.robotModel{1}.base.t = endEffectorPose.t;
-    obj.robotModel{1}.animate(0);
+    % Also update the base location of the gripper
+    finger1.model.base.t = endEffectorPose.t;
+    % finger1.model.base = endEffectorPose.T;
+    finger1.model.animate(finger1.model.getpos());
+
+    finger2.model.base.t = endEffectorPose.t;
+    % finger2.model.base = endEffectorPose.T;
+    finger2.model.animate(finger2.model.getpos());
+
     drawnow();
-    pause(0.1);   % Slow-mo
+    % pause(0.1);   % Slow-mo
 end
 disp(['Plot took ', num2str(toc), 'seconds'])
 
