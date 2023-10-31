@@ -1,0 +1,47 @@
+classdef Gripper2F85 < RobotBaseClass
+    %% LinearUR5 UR5 on a non-standard linear rail created by a student
+
+    properties(Access = public)
+        plyFileNameStem = 'Gripper2F85';
+    end
+
+    methods
+        %% Define robot Function
+        function self = Gripper2F85(baseTr)
+            self.CreateModel();
+            if nargin < 1
+                baseTr = eye(4);
+            end
+            self.model.base = self.model.base.T * baseTr * transl(0,0,0.06) * trotx(-pi/2);
+            self.PlotAndColourRobot();
+        end
+
+        %% Create the robot model
+        function CreateModel(self)
+            % Create the UR5 model mounted on a linear rail
+            % link(1) = Link('d',0,'a',0.04,'alpha',0,'qlim',[deg2rad(-20) deg2rad(20)]);
+            % link(2) = Link('d',0,'a',0,'alpha',0,'qlim',[deg2rad(-20) deg2rad(20)]);
+            % link(3) = Link('d',0,'a',0.06,'alpha',0,'qlim',[deg2rad(0) deg2rad(1)]);
+
+            % link(1) = Link('d',0,'a',0.04,'alpha',0,'qlim',[deg2rad(-20) deg2rad(20)]);
+            % link(2) = Link('d',0,'a',0,'alpha',0,'qlim',[deg2rad(-20) deg2rad(20)]);
+            % link(3) = Link('d',0,'a',0.06,'alpha',0,'qlim',[deg2rad(0) deg2rad(1)]);
+
+            % link(1) = Link('d',0.04,'a',0.04,'alpha',0,'qlim',[deg2rad(-20) deg2rad(20)]);
+            % link(2) = Link('d',0,'a',0.04,'alpha',0,'qlim',[deg2rad(-20) deg2rad(20)],'offset',-pi/2);
+            % link(3) = Link('d',0,'a',0.06,'alpha',0,'qlim',[deg2rad(-20) deg2rad(20)]);
+
+            link(1) = Link('d',0,'a',0.065,'alpha',0,'qlim',[deg2rad(-20) deg2rad(0)]);
+            link(2) = Link('d',0,'a',0.045,'alpha',0,'qlim',[deg2rad(-1) deg2rad(0)],'offset',-75*pi/180);
+            link(3) = Link('d',0,'a',0,'alpha',0,'qlim',[deg2rad(-1) deg2rad(0)],'offset',15*pi/180);
+
+            % % Incorporate joint limits
+            % link(1).qlim = [-pi pi];
+            % link(2).qlim = [-pi pi];
+            % link(3).qlim = [-pi pi];
+
+            self.model = SerialLink(link,'name',self.name);
+        end
+
+    end
+end
