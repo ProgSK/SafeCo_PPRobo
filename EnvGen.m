@@ -18,6 +18,11 @@
     robo75 = Pulse75(rOrigin75); % Creating the Pulse75 with specific origin point
     % roboDB = DobotMagician(rOriginDB); % Creating the DoBot with specific origin point
 
+% Gripper Created
+    gTR = robo75.model.fkine(robo75.model.getpos()).T;
+    g1 = Gripper2F85(gTR);
+    g2 = Gripper2F85(gTR*trotz(pi));
+
 
 %% Load pre-existing mat files
 % Specify the name of the specific .mat file you're looking for (purely for debugging)
