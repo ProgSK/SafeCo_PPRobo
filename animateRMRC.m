@@ -105,40 +105,44 @@ for k = 1:length(qMatrix)
         obj.robotModel{1}.base.t = endEffectorPose.t;
         obj.robotModel{1}.animate(0);
     end
+    
+    if finger1 == 0 && finger2 == 0
+        % Do nothing
+    else
+        % Also update the base location of the gripper
+        finger1.model.base.t = endEffectorPose.t;
+        % finger1.model.base = endEffectorPose.T;
+        finger1.model.animate(finger1.model.getpos());
 
-    % Also update the base location of the gripper
-    finger1.model.base.t = endEffectorPose.t;
-    % finger1.model.base = endEffectorPose.T;
-    finger1.model.animate(finger1.model.getpos());
-
-    finger2.model.base.t = endEffectorPose.t;
-    % finger2.model.base = endEffectorPose.T;
-    finger2.model.animate(finger2.model.getpos());
+        finger2.model.base.t = endEffectorPose.t;
+        % finger2.model.base = endEffectorPose.T;
+        finger2.model.animate(finger2.model.getpos());
+    end
 
     drawnow();
     % pause(0.1);   % Slow-mo
 end
 disp(['Plot took ', num2str(toc), 'seconds'])
 
-figure(2)
-subplot(2,1,1)
-plot(positionError'*1000,'LineWidth',1)
-refline(0,0)
-xlabel('Step')
-ylabel('Position Error (mm)')
-legend('X-Axis','Y-Axis','Z-Axis')
-
-subplot(2,1,2)
-plot(angleError','LineWidth',1)
-refline(0,0)
-xlabel('Step')
-ylabel('Angle Error (rad)')
-legend('Roll','Pitch','Yaw')
-figure(5)
-plot(m,'k','LineWidth',1)
-refline(0,epsilon)
-title('Manipulability')
-end
+% figure(2)
+% subplot(2,1,1)
+% plot(positionError'*1000,'LineWidth',1)
+% refline(0,0)
+% xlabel('Step')
+% ylabel('Position Error (mm)')
+% legend('X-Axis','Y-Axis','Z-Axis')
+% 
+% subplot(2,1,2)
+% plot(angleError','LineWidth',1)
+% refline(0,0)
+% xlabel('Step')
+% ylabel('Angle Error (rad)')
+% legend('Roll','Pitch','Yaw')
+% figure(5)
+% plot(m,'k','LineWidth',1)
+% refline(0,epsilon)
+% title('Manipulability')
+% end
 
 %% Plots for visualising manipulability
 % figure(2)

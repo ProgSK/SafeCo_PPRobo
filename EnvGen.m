@@ -8,7 +8,7 @@
 
 % Global Variables for Modular Position Co-ods
     rOrigin75 = transl([-1.9,1.8,0.945]); % Accounting for Relocation of Robot on Mounting Table
-    % rOriginDB = transl([0,0,0.945]); % Accounting for Relocation of Robot on Mounting Table
+    rOriginDB = transl([-0.1,2,0.945]); % Accounting for Relocation of Robot on Mounting Table
 
 % Called Functions
     envGen() % Function to Generate Environment & all its Safety Features
@@ -16,7 +16,7 @@
 % Robot Created
     % robo75 = Pulse75();
     robo75 = Pulse75(rOrigin75); % Creating the Pulse75 with specific origin point
-    % roboDB = DobotMagician(rOriginDB); % Creating the DoBot with specific origin point
+    roboDB = DobotMagician(rOriginDB); % Creating the DoBot with specific origin point
 
 % Gripper Created
     gTR = robo75.model.fkine(robo75.model.getpos()).T;
@@ -45,8 +45,8 @@ end
  
 % STEP 1: Assigning the Initial Pose Values for the various loads (position of origin before animated movement)
     pencilPose{1} = transl(0.23,2,1.03);
-    penPose{1} = transl(0.2,2,1.01);
-    rulerPose{1} = transl(0.2,2.03,1.02);
+    penPose{1} = transl(0.2,2,1.08);
+    rulerPose{1} = transl(0.2,2.03,1.1);
     calcPose{1} = transl(0.05,2,0.94);
     % eraserPose{1} = transl(-0.45,+0.35,+0);
     compassPose{1} = transl(0.155,2,1.071);

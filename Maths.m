@@ -22,11 +22,17 @@ animateRMRC(r,g1,g2,0,r.model.fkine(InitialQ).T,bookMathPose{1},InitialQ)
 % Close the gripper
 gripperAnimate(g1,g2,1);
 
+% Move book from shelf to table
 InitialQ = [0   -1.6982   -2.2076    0.5535         0         0         0];
 animateRMRC(r,g1,g2,mathBookObj,bookMathPose{1},bookMathPoseIntermediary{1},InitialQ)
 
 InitialQ = r.model.getpos();
 animateRMRC(r,g1,g2,mathBookObj,bookMathPoseIntermediary{1},bookMathPoseFinal{1},InitialQ)
+
+% Open the gripper 
+gripperAnimate(g1,g2,2);
+
+
 
 InitialQ = r.model.getpos();
 animateRMRC(r,g1,g2,mathBookObj,bookMathPoseFinal{1},bookMathPoseIntermediary{1},InitialQ)
