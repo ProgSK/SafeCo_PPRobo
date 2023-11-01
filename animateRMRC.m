@@ -3,7 +3,7 @@
 % Further updated by Sully for 7 DOF
 
 % Lab 9 - Question 1 - Resolved Motion Rate Control in 6DOF
-function animateRMRC(robot,finger1,finger2,obj,initialPose,finalPose,q0)
+function animateRMRC(self,robot,finger1,finger2,obj,initialPose,finalPose,q0)
 % 1.1) Set parameters for the simulation
 r = robot;        % Load robot model
 % r = Pulse75;
@@ -96,6 +96,14 @@ plot3(x(1,:),x(2,:),x(3,:),'k.','LineWidth',1)
 for k = 1:length(qMatrix)
     model.animate(qMatrix(k,:));
     endEffectorPose = robot.model.fkine(robot.model.getpos());
+
+    while self.estop == 1
+        % this pauses the code while the estop is pressed
+        pause(1);
+        while self.robotRunning == 0
+            pause(1); %continue button while loop
+        end
+    end
     
     if obj == 0
         % Do nothing

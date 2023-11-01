@@ -1,5 +1,5 @@
 %% Animate ikine
-function AnimateBricks(robot,finger1,finger2,finalPose,obj,initialQ)
+function AnimateBricks(self,robot,finger1,finger2,finalPose,obj,initialQ)
 steps = 50;
 
 % perform ikine
@@ -22,6 +22,14 @@ q1 = jtraj(q0,q1,steps); % Minimum jerk trajectory, which takes the form of a qu
 for k = 1:length(q1)
     robot.model.animate(q1(k,:));
     endEffectorPose = robot.model.fkine(robot.model.getpos());
+
+    while self.estop == 1
+        % this pauses the code while the estop is pressed
+        pause(1);
+        while self.robotRunning == 0
+            pause(1); %continue button while loop
+        end
+    end
     
     if finger1 == 0 && finger2 == 0
         % Do nothing
