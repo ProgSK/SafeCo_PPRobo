@@ -1,12 +1,13 @@
-%EXPERTTEACH Seriallink Graphical expertTeach pendant
+%EXPERTTEACH Seriallink Graphical teach "pendant"
 %
-% Allow the user to "drive" a graphical robot using a graphical slider
-% panel.
+% R.expertTeach(Q, OPTIONS) allows the user to "drive" a graphical robot by means
+% of a graphical slider panel. If no graphical robot exists one is created
+% in a new window.  Otherwise all current instances of the graphical robot
+% are driven.  The robots are set to the initial joint angles Q.
 %
-% R.expertTeach(OPTIONS) adds a slider panel to a current robot plot.
-%
-% R.expertTeach(Q, OPTIONS) as above but the robot joint angles are set to Q (1xN).
-%
+% R.expertTeach(OPTIONS) as above but with options and the initial joint angles
+% are taken from the pose of an existing graphical robot, or if that doesn't
+% exist then zero.
 %
 % Options::
 % 'eul'           Display tool orientation in Euler angles (default)
@@ -20,47 +21,23 @@
 %
 % To display the velocity ellipsoid for a Puma 560
 %
-%        p560.expertTeach('callback', @(r,q) r.vellipse(q));
+%        p560.teach('callback', @(r,q) r.vellipse(q));
 %
 % GUI::
+%
 % - The specified callback function is invoked every time the joint configuration changes.
 %   the joint coordinate vector.
-% - The Quit (red X) button removes the expertTeach panel from the robot plot.
+% - The Quit (red X) button destroys the teach window.
 %
 % Notes::
 % - If the robot is displayed in several windows, only one has the
-%   expertTeach panel added.
-% - All currently displayed robots move as the sliders are adjusted.
+%   teach panel added.
 % - The slider limits are derived from the joint limit properties.  If not
 %   set then for
 %   - a revolute joint they are assumed to be [-pi, +pi]
 %   - a prismatic joint they are assumed unknown and an error occurs.
 %
-% See also SerialLink.plot, SerialLink.getpos.
-
-
-
-% Copyright (C) 1993-2017, by Peter I. Corke
-%
-% This file is part of The Robotics Toolbox for MATLAB (RTB).
-% 
-% RTB is free software: you can redistribute it and/or modify
-% it under the terms of the GNU Lesser General Public License as published by
-% the Free Software Foundation, either version 3 of the License, or
-% (at your option) any later version.
-% 
-% RTB is distributed in the hope that it will be useful,
-% but WITHOUT ANY WARRANTY; without even the implied warranty of
-% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-% GNU Lesser General Public License for more details.
-% 
-% You should have received a copy of the GNU Leser General Public License
-% along with RTB.  If not, see <http://www.gnu.org/licenses/>.
-%
-% http://www.petercorke.com
-
-% a ton of handles and parameters created by this function are stashed in
-% a structure which is passed into all callbacks
+% See also SerialLink.plot and SerialLink.teach
 
 function expertTeach(robot, varargin)
 
@@ -135,18 +112,22 @@ handles.fig = get(ax, 'Parent');
 
 % shrink the current axes to make room
 %   [l b w h]
-set(ax, 'Outerposition', [0.25 0 0.70 1]);
+%set(ax, 'Outerposition', [0.25 0 0.70 1]);
 
 handles.curax = ax;
 
 %create panel
 panel = uipanel(handles.fig, ...
-    'Title', 'Expert Teach', ...
+    'Title', 'DoBot Teach', ...
     'BackGroundColor', bgcol, ...
-    'Position', [1 1 1 1]);
+    'Position', [0.75 0 0.25 1]);
 set(panel, 'Units', 'pixels'); % stop automatic resizing
 handles.panel = panel;
 set(handles.fig, 'Units', 'pixels');
+
+% Shrink the current axes to make room for the panel on the right
+% The axes will occupy 75% of the figure's width
+%set(handles.curax, 'OuterPosition', [0 0 0.50 1]);
 
 set(handles.fig, 'ResizeFcn', @(src,event) resize_callback(robot.model, handles));
 
@@ -558,3 +539,5 @@ set(handles.curax, 'Units', 'pixels', ...
 % keep the panel anchored to the top left corner
 set(handles.panel, 'Position', [1 fs(4)-ps(4) ps(3:4)]);
 end
+
+

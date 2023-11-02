@@ -112,18 +112,22 @@ handles.fig = get(ax, 'Parent');
 
 % shrink the current axes to make room
 %   [l b w h]
-set(ax, 'Outerposition', [0.25 0 0.70 1]);
+%set(ax, 'Outerposition', [0.25 0 0.70 1]);
 
 handles.curax = ax;
 
 %create panel
 panel = uipanel(handles.fig, ...
-    'Title', 'Advanced Teach', ...
+    'Title', 'Pulse Teach', ...
     'BackGroundColor', bgcol, ...
     'Position', [0 0 0.25 1]);
 set(panel, 'Units', 'pixels'); % stop automatic resizing
 handles.panel = panel;
 set(handles.fig, 'Units', 'pixels');
+
+% Shrink the current axes to make room for the panel on the left
+% The axes will occupy 75% of the figure's width
+ %set(handles.curax, 'OuterPosition', [0.25 0 0.1 1]);
 
 set(handles.fig, 'ResizeFcn', @(src,event) resize_callback(robot.model, handles));
 

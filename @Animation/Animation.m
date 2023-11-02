@@ -28,7 +28,7 @@ classdef Animation < handle
         % orderNo;
     end
 
-    methods 
+    methods
         function self = Animation()
 
             disp('setting up robot...');
@@ -100,81 +100,26 @@ classdef Animation < handle
                     case 0
                         pause(1);
                     case 1
-                        OrderNo = 1;
-                        disp("Order 1 button pressed!");
-                        %animate the movement for each robot
-                        % for k = 1:4
-                        %     self.animateRobot(self.robot.model, self.qMatrix{k}, cup{k}, cupMoving{k},person{k}, personMoving{k},OrderNo);
-                        % end
-                        %% call in new physics function
-
+                        %% call in physics function
                         self.physics(self.robot);
                         self.orderReady = 0;
                         self.startRobot = 0;
                         self.robotRunning = 0;
-                        %physics(self.robot.model)
-                        %self.physics(self.robot.model);
-
-                        disp("Order Number 1 delivered!");
-
-
-                        %                         % input intermediary and final poses for book
-                        % bookEngPoseIntermediary{1} = bookEngPose{1} * transl(0,-0.495,0);
-                        % bookEngPoseFinal{1} = transl(-1.1,1.75,1.1) *troty(pi/2);
-                        %
-                        % % engBookInitialQ = zeros(1,r.model.n)
-                        %
-                        % %% Adjust the position of robot and gripper
-                        % r.model.animate([0   -1.5708   -1.5708         0         0         0         0])
-                        % g1.model.base = g1.model.base.T * trotz(-pi/2);
-                        % g2.model.base = g2.model.base.T * trotz(pi/2);
-                        % %% Move the Engineering book back and forth using RMRC
-                        %
-                        % InitialQ = r.model.getpos();
-                        % animateRMRC(r,g1,g2,0,r.model.fkine(InitialQ).T,bookEngPose{1},InitialQ)
-                        % % Close the gripper
-                        % gripperAnimate(g1,g2,1);
-                        %
-                        % InitialQ = [0   -1.6982   -2.2076    0.5535         0         0         0];
-                        % animateRMRC(r,g1,g2,engBookObj,bookEngPose{1},bookEngPoseIntermediary{1},InitialQ)
-                        %
-                        % InitialQ = r.model.getpos();
-                        % animateRMRC(r,g1,g2,engBookObj,bookEngPoseIntermediary{1},bookEngPoseFinal{1},InitialQ)
-                        % % AnimateBricks(robo75,g1,g2,bookEngPoseIntermediary{1},bookEngPoseFinal{1},engBookObj,0);
-                        %
-                        % InitialQ = r.model.getpos();
-                        % animateRMRC(r,g1,g2,engBookObj,bookEngPoseFinal{1},bookEngPoseIntermediary{1},InitialQ)
-                        %
-                        % InitialQ = r.model.getpos();
-                        % animateRMRC(r,g1,g2,engBookObj,bookEngPoseIntermediary{1},bookEngPose{1},InitialQ)
-                        %
-                        % % Open the gripper
-                        % gripperAnimate(g1,g2,2);
-                        %
-                        %                         disp("Order Number 1 delivered!");
-
-
-                        % case 2
-                        %     %animate the movement for each robot
-                        %     OrderNo = 2;
-                        %     for l = 5:8
-                        %         self.animateRobot(self.robot.model, self.qMatrix{l}, cup{l}, cupMoving{l},person{l}, personMoving{l},OrderNo);
-                        %     end
-                        %     self.orderReady = 0;
-                        %     self.startRobot = 0;
-                        %     self.robotRunning = 0;
-                        %     disp("Order Number 2 delivered!");
-                        % case 3
-                        %     OrderNo = 3;
-                        %     %animate the movement for each robot
-                        %     for h = 9:12
-                        %         self.animateRobot(self.robot.model, self.qMatrix{h}, cup{h}, cupMoving{h},person{h}, personMoving{h},OrderNo);
-                        %         %     pause
-                        %     end
-                        %     self.orderReady = 0;
-                        %     self.startRobot = 0;
-                        %     self.robotRunning = 0;
-                        %     disp("Order Number 3 delivered!");
+                        disp("Physics book, pen and ruler ready!");
+                    case 2
+                        %% call in chemistry function
+                        self.chemistry(self.robot);
+                        self.orderReady = 0;
+                        self.startRobot = 0;
+                        self.robotRunning = 0;
+                        disp("Chemistry book, pen and pencil ready!");
+                    case 3
+                        %% call in chemistry function
+                        self.maths(self.robot);
+                        self.orderReady = 0;
+                        self.startRobot = 0;
+                        self.robotRunning = 0;
+                        disp("Brought out Maths book, a pen and a compass!");
                 end
             end
             %------------------------------------------------
@@ -182,162 +127,25 @@ classdef Animation < handle
         end
 
 
-        % function qMatrix = transformMoves(~,robot, cupTR)
-        %     %TRANSFORMMOVES This function calculates the qMatrix
-        %     %   This function takes the robot in use and calculates the
-        %     %   Trapezoidal Velocity Profile qMatrix
-        %
-        %     % We ran out of time to replace this with RMRC or quintic
-        %     % polynomial
-        %     % Trap completes the movement quickly however it has jerk and
-        %     % so is not appropriate for the use case. An alternative would
-        %     % be quintic or s-curve trajectory planning
-        %
-        %     steps = 50; %%more steps ->slower code and movement
-        %     joints=7;
-        %     qCurrent = zeros(1,joints);
-        %     iterations = 12; %%number of moves. change for number of moves required
-        %     qMatrix = cell(iterations, joints);
-        %     for i = 1:iterations
-        %         if cupTR{i} == 0
-        %             qMatrix{i} = 0;
-        %         else
-        %             qGoal = robot.model.ikcon(cupTR{i}, qCurrent); % include joint limits with ikone
-        %             s = lspb(0, 1, steps); %polynomial distance from 0 to 1
-        %             qMatrix{i} = zeros(steps, joints);
-        %
-        %             for j = 1:steps
-        %                 qMatrix{i}(j, :) = (1-s(j))*qCurrent + s(j)*qGoal;
-        %             end
-        %             qCurrent = qGoal;
-        %         end
-        %     end
-        % end
-
-
-        % %         function animateRobot()
-        % %             %ANIMATEROBOTS This function makes the robot move
-        % %             %   This function takes the robot in use, Trapezoidal Velocity Profile,
-        % %             %   cup in use and whether the cup is to also be moved. It then uses
-        % %             %   animate to move the robot.
-        % %             %   when an order is ready it also moves the correct person
-        % %             %   forward to collect the cup
-        % %
-        % %             % hard coded in get moves
-        % %
-        % %             while self.startRobot == 0
-        % %                 pause(1);
-        % %             end
-        % %             if self.startRobot == 1
-        % %                 % steps = height(qMatrix);
-        % %                 % for i = 1:steps
-        % %                 %
-        % %                 %     %animate robot motion
-        % %                 %     if size(qMatrix) > 1
-        % %                 %         animate(robot, qMatrix(i, :));
-        % %                 %     end
-        % %                 %
-        % %                 %     %animate cup motion
-        % %                 %     if cupMoving == true
-        % %                 %         newPos1 = robot.fkine(qMatrix(i, :)).T; %find the robot ee position
-        % %                 %         newPos1 = newPos1*transl(0,0,-0.1); %drop the cup location slightly just cause it didnt work on my computer?
-        % %                 %         ee = newPos1(1:3,4); % THIS IS WHERE WE MASK THE CUP YAW SO IT IS ALWAYS UPRIGHT
-        % %                 %         cup.updatePosition(transl(ee));
-        % %                 %     end
-        % %                 %
-        % %                 %     %% animate person motion
-        % %                 %     % if personMoving == true
-        % %                 %     %     %self.personEndLocation{i}
-        % %                 %     %     if i == 1
-        % %                 %     %         currentPos = self.personStartLocation{OrderNo};
-        % %                 %     %         currentPos = currentPos(1:3,4);
-        % %                 %     %         cupPos = transl( 0.5 ,0, 1.4); %%hard coded hand off position
-        % %                 %     %         cupPos = cupPos(1:3,4);
-        % %                 %     %
-        % %                 %     %     end
-        % %                 %     %
-        % %                 %     %     %For order 1
-        % %                 %     %     if OrderNo == 1
-        % %                 %     %         % if i <= 25 % person moving towards the cup
-        % %                 %     %         %     matrix = [0.9/25;0;0]; %step the person is moving
-        % %                 %     %         % end
-        % %                 %     %         %
-        % %                 %     %         % if i > 25 %person moving back with the cup
-        % %                 %     %         %     matrix = [-0.9/25;0;0]; %step the person is moving
-        % %                 %     %         %     cupPos = cupPos+matrix;
-        % %                 %     %         %     tester = transl(cupPos);%*transl(0,0,-0.25); %added a transl down so the cup is in hand
-        % %                 %     %         %     cup.updatePosition(tester); %moved the cup position by the same step as the person
-        % %                 %     %         % end
-        % %                 %     %         % currentPos = currentPos+matrix;
-        % %                 %     %         % personPos = transl(currentPos);
-        % %                 %     %         % person.updatePosition(personPos);
-        % %                 %     %         disp("Order 1 button pressed!");
-        % %                 %     %
-        % %                 %     %     end
-        % %                 %     %
-        % %                 %     % end
-        % %
-        % %                 %% Move the Engineering book back and forth using RMRC
-        % % % input intermediary and final poses for book
-        % %             bookEngPoseIntermediary{1} = bookEngPose{1} * transl(0,-0.495,0);
-        % %             bookEngPoseFinal{1} = transl(-1.1,1.75,1.1) *troty(pi/2)
-        % %
-        % %             %% Adjust the position of robot and gripper
-        % %             r.model.animate([0   -1.5708   -1.5708         0         0         0         0])
-        % %             g1.model.base = g1.model.base.T * trotz(-pi/2);
-        % %             g2.model.base = g2.model.base.T * trotz(pi/2);
-        % %
-        % % InitialQ = r.model.getpos();
-        % % animateRMRC(r,g1,g2,0,r.model.fkine(InitialQ).T,bookEngPose{1},InitialQ)
-        % % % Close the gripper
-        % % gripperAnimate(g1,g2,1);
-        % %
-        % % InitialQ = [0   -1.6982   -2.2076    0.5535         0         0         0];
-        % % animateRMRC(r,g1,g2,engBookObj,bookEngPose{1},bookEngPoseIntermediary{1},InitialQ)
-        % %
-        % % InitialQ = r.model.getpos();
-        % % animateRMRC(r,g1,g2,engBookObj,bookEngPoseIntermediary{1},bookEngPoseFinal{1},InitialQ)
-        % % % AnimateBricks(robo75,g1,g2,bookEngPoseIntermediary{1},bookEngPoseFinal{1},engBookObj,0);
-        % %
-        % % InitialQ = r.model.getpos();
-        % % animateRMRC(r,g1,g2,engBookObj,bookEngPoseFinal{1},bookEngPoseIntermediary{1},InitialQ)
-        % %
-        % % InitialQ = r.model.getpos();
-        % % animateRMRC(r,g1,g2,engBookObj,bookEngPoseIntermediary{1},bookEngPose{1},InitialQ)
-        % %
-        % % % Open the gripper
-        % % gripperAnimate(g1,g2,2);
-        % %
-        % %                     while self.estop == 1
-        % %                         % this pauses the code while the estop is pressed
-        % %                         pause(1);
-        % %                         while self.robotRunning == 0
-        % %                             pause(1); %continue button while loop
-        % %                         end
-        % %                     end
-        % %                 %
-        % %                 %     drawnow()
-        % %                 % end
-        % %
-        % %             end
-        % %         end
-
-
+        %% Physics
         function physics(self, robot)
 
             while self.startRobot == 0
                 pause(1);
             end
             if self.startRobot == 1
-                % load environment script, fills workspace with relevant variables
+                % load environment (EnvGen) script, fills workspace with relevant variables
                 EnvGen();
-                r = robot;
                 r = robo75;
                 d = roboDB;
 
+                % properties from Animation class (used for only for testing purposes/debugging)
+                self.estop = 0;
+                self.robotRunning = 0;
+
                 % input intermediary and final poses for book
                 bookEngPoseIntermediary{1} = bookEngPose{1} * transl(0,-0.495,0);
-                bookEngPoseFinal{1} = transl(-1.1,1.75,1.1) * troty(pi/2);
+                bookEngPoseFinal{1} = transl(-1.1,1.8,1.13) * troty(pi/2);
 
                 penPoseIntermediary{1} = penPose{1} * transl(0,0,0.8);
                 penPoseFinal{1} = transl(-0.1,1.75,0.945) * trotx(pi/2);
@@ -346,79 +154,225 @@ classdef Animation < handle
                 rulerPoseFinal{1} = transl(0,1.75,0.945) * trotx(pi/2);
 
                 %% Adjust the position of robot and gripper
-                r.model.animate([0   -1.5708   -1.5708         0         0         0         0])
+                r.model.animate([-0.5   -1.5708   -1.5708         pi/2         0         0         0])
                 g1.model.base = g1.model.base.T * trotz(-pi/2);
                 g2.model.base = g2.model.base.T * trotz(pi/2);
                 %% Move the Engineering book back and forth using RMRC
-                
 
-                % GO from initial position to book pos
+                % Go from initial position to book pos
                 InitialQ = r.model.getpos();
                 animateRMRC(self,r,g1,g2,0,r.model.fkine(InitialQ).T,bookEngPose{1},InitialQ)
-
-                
 
                 % Close the gripper
                 gripperAnimate(g1,g2,1);
 
-                
-
                 % Grab book from shelf
-                InitialQ = [0   -1.6982   -2.2076    0.5535         0         0         0];
+                InitialQ = [-0.5   -1.6982   -45*pi/180    60*pi/180         160*pi/180         0         0];
                 animateRMRC(self,r,g1,g2,engBookObj,bookEngPose{1},bookEngPoseIntermediary{1},InitialQ)
-
-               
 
                 InitialQ = r.model.getpos();
                 animateRMRC(self,r,g1,g2,engBookObj,bookEngPoseIntermediary{1},bookEngPoseFinal{1},InitialQ)
-                
-              
 
                 % Open the gripper
                 gripperAnimate(g1,g2,2);
 
-               
+                % Make Pulse75 go home
+                InitialQ = [-0.5   -1.5708   -1.5708         pi/2         0         0         0];
+                AnimateBricks(self,r,g1,g2,r.model.fkine(InitialQ).T,0,InitialQ);
 
                 % Make Dobot pick up pen
                 InitialQ = [0    0.7854    0.7854    1.5708         0];
                 AnimateBricks(self,d,0,0,penPose{1},0,InitialQ);
 
-                
-
                 InitialQ = d.model.getpos();
                 AnimateBricks(self,d,0,0,penPoseIntermediary{1},penObj,InitialQ);
 
-                
-
                 InitialQ = [-1.5708    1.0472    1.0472    1.0472         0];
                 AnimateBricks(self,d,0,0,penPoseFinal{1},penObj,InitialQ);
-
-                
 
                 % Make Dobot pick up ruler
                 InitialQ = [0    0.7854    0.7854    1.5708         0];
                 AnimateBricks(self,d,0,0,rulerPose{1},0,InitialQ);
 
-                
-
                 InitialQ = d.model.getpos();
                 AnimateBricks(self,d,0,0,rulerPoseIntermediary{1},rulerObj,InitialQ);
-
-                
 
                 InitialQ = [-1.5708    1.0472    1.0472    1.0472         0];
                 AnimateBricks(self,d,0,0,rulerPoseFinal{1},rulerObj,InitialQ);
 
-                
-
                 % Make dobot go home
-                InitialQ = [0    0.7854    0.7854    1.5708         0];
-                AnimateBricks(self,d,0,0,rulerPose{1},0,InitialQ);
-
-                
-                drawnow()
+                InitialQ = [0 0 0 0 0];
+                AnimateBricks(self,d,0,0,d.model.fkine(InitialQ).T,0,InitialQ);
             end
 
         end
+
+        %% Chemistry mode
+        function chemistry(self, robot)
+
+            while self.startRobot == 0
+                pause(1);
+            end
+            if self.startRobot == 1
+                % load environment script, fills workspace with relevant variables
+                EnvGen();
+                r = robo75;
+                d = roboDB;
+
+                % properties from Animation class (used for only for testing purposes/debugging)
+                self.estop = 0;
+                self.robotRunning = 0;
+
+                % input intermediary and final poses for book
+                bookChemPoseIntermediary{1} = bookChemPose{1} * transl(0,-0.495,0);
+                bookChemPoseFinal{1} = transl(-1.1,1.75,1.13) *troty(pi/2);
+
+                penPoseIntermediary{1} = penPose{1} * transl(0,0,0.8);
+                penPoseFinal{1} = transl(-0.1,1.75,0.945) * trotx(pi/2);
+
+                pencilPoseIntermediary{1} = pencilPose{1} * transl(0,0,0.8);
+                pencilPoseFinal{1} = transl(0,1.75,0.945) * trotx(pi/2);
+
+                %% Adjust the position of robot and gripper
+                r.model.animate([-0.5   -1.5708   -1.5708         pi/2         0         0         0])
+                g1.model.base = g1.model.base.T * trotz(-pi/2);
+                g2.model.base = g2.model.base.T * trotz(pi/2);
+
+                %% Move the Engineering book back and forth using RMRC
+
+                % Go from initial position to book pos
+                startingQ = r.model.getpos();
+                % InitialQ = [0   -1.6982   -2.2076    0.5535         0         0         0];
+                InitialQ = [0.511   -1.5708   -1.0472    1.5708   150*pi/180         0         0];
+                animateRMRC(self,r,g1,g2,0,r.model.fkine(startingQ).T,bookChemPose{1},InitialQ)
+
+                % Close the gripper
+                gripperAnimate(g1,g2,1);
+
+                % Grab book from shelf
+                InitialQ = [-0.5   -1.6982   -45*pi/180    60*pi/180         160*pi/180         0         0];
+                animateRMRC(self,r,g1,g2,chemBookObj,bookChemPose{1},bookChemPoseIntermediary{1},InitialQ)
+
+                InitialQ = r.model.getpos();
+                % InitialQ = [0.1989   -2.0681   -0.4484    0.8277   -0.3699   -0.4955   -3.1411];
+                animateRMRC(self,r,g1,g2,chemBookObj,bookChemPoseIntermediary{1},bookChemPoseFinal{1},InitialQ)
+
+                % Open the gripper
+                gripperAnimate(g1,g2,2);
+
+                % Make Pulse75 go home
+                InitialQ = [-0.5   -1.5708   -1.5708         pi/2         0         0         0];
+                AnimateBricks(self,r,g1,g2,r.model.fkine(InitialQ).T,0,InitialQ);
+
+                % Make Dobot pick up pen
+                InitialQ = [0    0.7854    0.7854    1.5708         0];
+                AnimateBricks(self,d,0,0,penPose{1},0,InitialQ);
+
+                InitialQ = d.model.getpos();
+                AnimateBricks(self,d,0,0,penPoseIntermediary{1},penObj,InitialQ);
+
+                InitialQ = [-1.5708    1.0472    1.0472    1.0472         0];
+                AnimateBricks(self,d,0,0,penPoseFinal{1},penObj,InitialQ);
+
+                % Make Dobot pick up pencil
+                InitialQ = [0    0.7854    0.7854    1.5708         0];
+                AnimateBricks(self,d,0,0,pencilPose{1},0,InitialQ);
+
+                InitialQ = d.model.getpos();
+                AnimateBricks(self,d,0,0,pencilPoseIntermediary{1},pencilObj,InitialQ);
+
+                InitialQ = [-1.5708    1.0472    1.0472    1.0472         0];
+                AnimateBricks(self,d,0,0,pencilPoseFinal{1},pencilObj,InitialQ);
+
+                % Make dobot go home
+                InitialQ = [0 0 0 0 0];
+                AnimateBricks(self,d,0,0,d.model.fkine(InitialQ).T,0,InitialQ);
+
+            end
+
+        end
+
+        %% Maths mode
+        function maths(self, robot)
+
+            while self.startRobot == 0
+                pause(1);
+            end
+            if self.startRobot == 1
+                % load environment script, fills workspace with relevant variables
+                EnvGen();
+                r = robo75;
+                d = roboDB;
+
+                % properties from Animation class (used for only for testing purposes/debugging)
+                self.estop = 0;
+                self.robotRunning = 0;
+
+                % input intermediary and final poses for book
+                bookMathPoseIntermediary{1} = bookMathPose{1} * transl(0,-0.495,0);
+                bookMathPoseFinal{1} = transl(-1.1,1.75,1.13) *troty(pi/2);
+
+                penPoseIntermediary{1} = penPose{1} * transl(0,0,0.8);
+                penPoseFinal{1} = transl(-0.1,1.75,0.945) * trotx(pi/2);
+
+                compassPoseIntermediary{1} = compassPose{1} * transl(0,0,0.8);
+                compassPoseFinal{1} = transl(0,1.75,0.945) * trotx(pi/2);
+
+                %% Adjust the position of robot and gripper
+                r.model.animate([-0.5   -1.5708   -1.5708         pi/2         0         0         0])
+                g1.model.base = g1.model.base.T * trotz(-pi/2);
+                g2.model.base = g2.model.base.T * trotz(pi/2);
+                %% Move the Engineering book back and forth using RMRC
+
+                InitialQ = r.model.getpos();
+                animateRMRC(self,r,g1,g2,0,r.model.fkine(InitialQ).T,bookMathPose{1},InitialQ)
+
+                % Close the gripper
+                gripperAnimate(g1,g2,1);
+
+                % Move book from shelf to table
+                InitialQ = [-0.5   -1.6982   -45*pi/180    60*pi/180         160*pi/180         0         0];
+                animateRMRC(self,r,g1,g2,mathBookObj,bookMathPose{1},bookMathPoseIntermediary{1},InitialQ)
+
+                InitialQ = r.model.getpos();
+                animateRMRC(self,r,g1,g2,mathBookObj,bookMathPoseIntermediary{1},bookMathPoseFinal{1},InitialQ)
+
+                % Open the gripper
+                gripperAnimate(g1,g2,2);
+
+                % Make Pulse75 go home
+                InitialQ = [-0.5   -1.5708   -1.5708         pi/2         0         0         0];
+                AnimateBricks(self,r,g1,g2,r.model.fkine(InitialQ).T,0,InitialQ);
+
+                % Make Dobot pick up pen
+                InitialQ = [0    0.7854    0.7854    1.5708         0];
+                AnimateBricks(self,d,0,0,penPose{1},0,InitialQ);
+
+                InitialQ = d.model.getpos();
+                AnimateBricks(self,d,0,0,penPoseIntermediary{1},penObj,InitialQ);
+
+                InitialQ = [-1.5708    1.0472    1.0472    1.0472         0];
+                AnimateBricks(self,d,0,0,penPoseFinal{1},penObj,InitialQ);
+
+                % Make Dobot pick up compass
+                InitialQ = [0    0.7854    0.7854    1.5708         0];
+                AnimateBricks(self,d,0,0,compassPose{1},0,InitialQ);
+
+                InitialQ = d.model.getpos();
+                AnimateBricks(self,d,0,0,compassPoseIntermediary{1},compassObj,InitialQ);
+
+                InitialQ = [-1.5708    1.0472    1.0472    1.0472         0];
+                AnimateBricks(self,d,0,0,compassPoseFinal{1},compassObj,InitialQ);
+
+                % Make dobot go home
+                InitialQ = [0 0 0 0 0];
+                AnimateBricks(self,d,0,0,d.model.fkine(InitialQ).T,0,InitialQ);
+
+
+            end
+
+        end
+
+
     end
 end

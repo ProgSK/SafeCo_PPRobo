@@ -82,5 +82,4 @@ robotPlay
 % --- Executes on button press in btn_focusModes.
 function btn_focusModes_Callback(hObject, eventdata, handles)
 clf
-close GUI
-focusModes
+Animation
