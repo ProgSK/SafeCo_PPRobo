@@ -75,6 +75,7 @@ varargout{1} = handles.output;
 
 % --- Executes on button press in btn_PhysicsMode.
 function btn_PhysicsMode_Callback(hObject, eventdata, handles)
+clf
 Animation
 
 

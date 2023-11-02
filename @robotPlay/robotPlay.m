@@ -10,8 +10,9 @@ EnvGen();
 %robot = Pulse75(transl(-1.4, 1.3, 0.94)); % initalise the robot location'
 %robot = Pulse75(); % initalise the robot location
 %self.robot = robot; %store robot in the class
-robo75.advancedTeach; %opens advanced teach
-%robo75.expertTeach; %opens advanced teach
+%robo75.advancedTeach; %opens advanced teach
+%roboDB.advancedTeach; %opens advanced teach
+roboDB.expertTeach; %opens advanced teach
 
 %robot = LinearUR3
 %robot.expertTeach
