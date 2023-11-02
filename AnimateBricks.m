@@ -2,10 +2,6 @@
 function AnimateBricks(self,robot,finger1,finger2,finalPose,obj,initialQ)
 steps = 50;
 
-% perform ikine
-% q1 = robot.model.ikcon(initialPose);
-% q2 = robot.model.ikcon(finalPose);
-
 if initialQ == 0
     q1 = robot.model.ikcon(finalPose);
 else
@@ -34,9 +30,9 @@ for k = 1:length(q1)
     if finger1 == 0 && finger2 == 0
         % Do nothing
     else
-        finger1.model.base = endEffectorPose.T;
+        finger1.model.base = endEffectorPose.T * trotx(-pi/2);
         finger1.model.animate(finger1.model.getpos());
-        finger2.model.base = endEffectorPose.T;
+        finger2.model.base = endEffectorPose.T * trotx(-pi/2) * troty(pi);
         finger2.model.animate(finger2.model.getpos());
     end
 
