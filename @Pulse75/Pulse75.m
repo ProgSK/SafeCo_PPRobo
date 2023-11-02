@@ -28,7 +28,8 @@ classdef Pulse75 < RobotBaseClass
             link(7) = Link([0 0.1226 0 0 0]);
 
             % Incorporate joint limits
-            link(1).qlim = [0 0.5];
+            % link(1).qlim = [0 0.5];
+            link(1).qlim = [-0.5 -0.01];
             link(2).qlim = [-360 360]*pi/180;
             link(3).qlim = [-360 360]*pi/180;
             link(4).qlim = [-160 160]*pi/180;
