@@ -7,7 +7,7 @@
     view(3);
 
 % Global Variables for Modular Position Co-ods
-    rOrigin75 = transl([-1.9,1.8,0.945]); % Accounting for Relocation of Robot on Mounting Table
+    rOrigin75 = transl([-1.3,1.8,0.945]); % Accounting for Relocation of Robot on Mounting Table
     rOriginDB = transl([-0.1,2,0.945]); % Accounting for Relocation of Robot on Mounting Table
 
 % Called Functions
@@ -50,9 +50,9 @@ end
     calcPose{1} = transl(0.05,2,0.94);
     % eraserPose{1} = transl(-0.45,+0.35,+0);
     compassPose{1} = transl(0.155,2,1.071);
-    bookChemPose{1} = transl(-0.95,2.255,1.5);
-    bookMathPose{1} = transl(-1.05,2.255,1.5);
-    bookEngPose{1} = transl(-1.15,2.255,1.5);
+    bookChemPose{1} = transl(-1,2.255,1.5);
+    bookMathPose{1} = transl(-1.1,2.255,1.5);
+    bookEngPose{1} = transl(-1.2,2.255,1.5);
     keyboardPose{1} = transl(-1.1,2.4,1.67);
     mousePose{1} = transl(-1.4,2.4,1.67);
     ps5ControllerPose{1} = transl(-1.4,2.4,1.35);
@@ -76,18 +76,18 @@ end
 if exist(spawnFileName,'file') == 2
     load spawnData.mat % Load pre-existing objects
     % plots the objects (with no colour, PURELY FOR DEBUGGING PURPOSES)
-    plot3d(pencilObj.robotModel{1},0,'workspace',workspace,'view',[30,30],'delay',0,'noarrow','nowrist','notiles');
-    plot3d(penObj.robotModel{1},0,'workspace',workspace,'view',[30,30],'delay',0,'noarrow','nowrist','notiles');
-    plot3d(rulerObj.robotModel{1},0,'workspace',workspace,'view',[30,30],'delay',0,'noarrow','nowrist','notiles');
-    plot3d(calcObj.robotModel{1},0,'workspace',workspace,'view',[30,30],'delay',0,'noarrow','nowrist','notiles');
-    % plot3d(eraserObj.robotModel{1},0,'workspace',workspace,'view',[30,30],'delay',0,'noarrow','nowrist','notiles');
-    plot3d(chemBookObj.robotModel{1},0,'workspace',workspace,'view',[30,30],'delay',0,'noarrow','nowrist','notiles');
-    plot3d(mathBookObj.robotModel{1},0,'workspace',workspace,'view',[30,30],'delay',0,'noarrow','nowrist','notiles');
-    plot3d(engBookObj.robotModel{1},0,'workspace',workspace,'view',[30,30],'delay',0,'noarrow','nowrist','notiles');
-    plot3d(compassObj.robotModel{1},0,'workspace',workspace,'view',[30,30],'delay',0,'noarrow','nowrist','notiles');
-    plot3d(keyboardObj.robotModel{1},0,'workspace',workspace,'view',[30,30],'delay',0,'noarrow','nowrist','notiles');
-    plot3d(mouseObj.robotModel{1},0,'workspace',workspace,'view',[30,30],'delay',0,'noarrow','nowrist','notiles');
-    plot3d(ps5ControllerObj.robotModel{1},0,'workspace',workspace,'view',[30,30],'delay',0,'noarrow','nowrist','notiles');
+    plot3d(pencilObj.robotModel{1},0,'workspace',workspace,'view',[-30,30],'delay',0,'noarrow','nowrist','notiles');
+    plot3d(penObj.robotModel{1},0,'workspace',workspace,'view',[-30,30],'delay',0,'noarrow','nowrist','notiles');
+    plot3d(rulerObj.robotModel{1},0,'workspace',workspace,'view',[-30,30],'delay',0,'noarrow','nowrist','notiles');
+    plot3d(calcObj.robotModel{1},0,'workspace',workspace,'view',[-30,30],'delay',0,'noarrow','nowrist','notiles');
+    % plot3d(eraserObj.robotModel{1},0,'workspace',workspace,'view',[-30,30],'delay',0,'noarrow','nowrist','notiles');
+    plot3d(chemBookObj.robotModel{1},0,'workspace',workspace,'view',[-30,30],'delay',0,'noarrow','nowrist','notiles');
+    plot3d(mathBookObj.robotModel{1},0,'workspace',workspace,'view',[-30,30],'delay',0,'noarrow','nowrist','notiles');
+    plot3d(engBookObj.robotModel{1},0,'workspace',workspace,'view',[-30,30],'delay',0,'noarrow','nowrist','notiles');
+    plot3d(compassObj.robotModel{1},0,'workspace',workspace,'view',[-30,30],'delay',0,'noarrow','nowrist','notiles');
+    plot3d(keyboardObj.robotModel{1},0,'workspace',workspace,'view',[-30,30],'delay',0,'noarrow','nowrist','notiles');
+    plot3d(mouseObj.robotModel{1},0,'workspace',workspace,'view',[-30,30],'delay',0,'noarrow','nowrist','notiles');
+    plot3d(ps5ControllerObj.robotModel{1},0,'workspace',workspace,'view',[-30,30],'delay',0,'noarrow','nowrist','notiles');
 else
     pencilObj = RobotSpawn('Pencil',1,pencilPose);
     penObj = RobotSpawn('Pen',1,penPose);
