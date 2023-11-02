@@ -42,6 +42,15 @@ end
 T = [rpy2r(theta(1,1),theta(2,1),theta(3,1)) x(:,1);zeros(1,3) 1];          % Create transformation of first point and angle
 qMatrix(1,:) = model.ikcon(T,q0);                                            % Solve joint angles to achieve first waypoint
 
+% for i = 1:length(qMatrix)
+%     if qMatrix(i,1) < 0
+%         qMatrix(i,1) = 0.01;
+%     end
+%     if qMatrix > 5
+%         qMatrix(i,1) = 5;
+%     end
+% end
+
 % 1.4) Track the trajectory with RMRC
 for i = 1:steps-1
     % UPDATE: fkine function now returns an SE3 object. To obtain the
