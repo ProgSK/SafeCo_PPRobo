@@ -41,7 +41,7 @@ classdef RobotSpawn < handle
                 self.robotModel{i}.base = self.robotPoses{i}; % robot 1 is given robot pose 1
 
                 % Plot 3D model
-                plot3d(self.robotModel{i},0,'workspace',self.workspaceDimensions,'view',[30,30],'delay',0,'noarrow','nowrist','notiles');
+                plot3d(self.robotModel{i},0,'workspace',self.workspaceDimensions,'view',[-30,30],'delay',0,'noarrow','nowrist','notiles');
                 % Hold on after the first plot (if already on there's no difference)
                 if i == 1
                     hold on;
