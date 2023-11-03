@@ -61,7 +61,6 @@ end
 if exist(spawnFileName,'file') == 2
     load spawnData.mat % Load pre-existing objects
     % plots the objects (with no colour, PURELY FOR DEBUGGING PURPOSES)
-<<<<<<< HEAD
     plot3d(pencilObj.robotModel{1},0,'workspace',workspace,'view',[30,30],'delay',0,'noarrow','nowrist','notiles');
     plot3d(penObj.robotModel{1},0,'workspace',workspace,'view',[30,30],'delay',0,'noarrow','nowrist','notiles');
     plot3d(rulerObj.robotModel{1},0,'workspace',workspace,'view',[30,30],'delay',0,'noarrow','nowrist','notiles');
@@ -73,20 +72,6 @@ if exist(spawnFileName,'file') == 2
     plot3d(keyboardObj.robotModel{1},0,'workspace',workspace,'view',[30,30],'delay',0,'noarrow','nowrist','notiles');
     plot3d(mouseObj.robotModel{1},0,'workspace',workspace,'view',[30,30],'delay',0,'noarrow','nowrist','notiles');
     plot3d(ps5ControllerObj.robotModel{1},0,'workspace',workspace,'view',[30,30],'delay',0,'noarrow','nowrist','notiles');
-=======
-    plot3d(pencilObj.robotModel{1},0,'workspace',workspace,'view',[-30,30],'delay',0,'noarrow','nowrist','notiles');
-    plot3d(penObj.robotModel{1},0,'workspace',workspace,'view',[-30,30],'delay',0,'noarrow','nowrist','notiles');
-    plot3d(rulerObj.robotModel{1},0,'workspace',workspace,'view',[-30,30],'delay',0,'noarrow','nowrist','notiles');
-    plot3d(calcObj.robotModel{1},0,'workspace',workspace,'view',[-30,30],'delay',0,'noarrow','nowrist','notiles');
-    % plot3d(eraserObj.robotModel{1},0,'workspace',workspace,'view',[-30,30],'delay',0,'noarrow','nowrist','notiles');
-    plot3d(chemBookObj.robotModel{1},0,'workspace',workspace,'view',[-30,30],'delay',0,'noarrow','nowrist','notiles');
-    plot3d(mathBookObj.robotModel{1},0,'workspace',workspace,'view',[-30,30],'delay',0,'noarrow','nowrist','notiles');
-    plot3d(engBookObj.robotModel{1},0,'workspace',workspace,'view',[-30,30],'delay',0,'noarrow','nowrist','notiles');
-    plot3d(compassObj.robotModel{1},0,'workspace',workspace,'view',[-30,30],'delay',0,'noarrow','nowrist','notiles');
-    plot3d(keyboardObj.robotModel{1},0,'workspace',workspace,'view',[-30,30],'delay',0,'noarrow','nowrist','notiles');
-    plot3d(mouseObj.robotModel{1},0,'workspace',workspace,'view',[-30,30],'delay',0,'noarrow','nowrist','notiles');
-    plot3d(ps5ControllerObj.robotModel{1},0,'workspace',workspace,'view',[-30,30],'delay',0,'noarrow','nowrist','notiles');
->>>>>>> 3053edcc986f02c4d6baf12fc0de45479b4f8dde
 else
     pencilObj = RobotSpawn('Pencil',1,pencilPose);
     penObj = RobotSpawn('Pen',1,penPose);
