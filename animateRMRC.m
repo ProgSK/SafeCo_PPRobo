@@ -89,7 +89,7 @@ end
 % 1.5) Plot the results
 tic
 
-figure(1)
+% figure(1)
 hold on
 % plot3(x(1,:),x(2,:),x(3,:),'k.','LineWidth',1) % Plots straight line from initial to goal (remove in final release)
 
