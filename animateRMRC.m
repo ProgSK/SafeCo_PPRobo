@@ -3,20 +3,16 @@
 % Further updated by Sully for 7 DOF
 
 % Lab 9 - Question 1 - Resolved Motion Rate Control in 6DOF
-function animateRMRC(robot,finger1,finger2,obj,initialPose,finalPose,q0)
+function animateRMRC(self,robot,finger1,finger2,obj,initialPose,finalPose,q0)
 % 1.1) Set parameters for the simulation
 r = robot;        % Load robot model
-% r = Pulse75;
 model = r.model;
 t = 10;             % Total time (s)
 deltaT = 0.2;      % Control frequency
-steps = t/deltaT;   % No. of steps for simulation = 50 (Allows for use of zeros for initial q OwO)
+steps = t/deltaT;   % No. of steps for simulation = 50 (Allows leniency for q0 estimates)
 delta = 2*pi/steps; % Small angle change
 epsilon = 0.1;      % Threshold value for manipulability/Damped Least Squares
 W = diag([1 1 1 0.1 0.1 0.1]);    % Weighting matrix for the velocity vector
-% robot.model.qlim(2,:) = [-180 180]*pi/180;
-% initialTR = [0 -0.4 0.6];
-% goalTR = [0.5 -0.4 0.7];
 
 initialTR = initialPose(1:3,4)';
 goalTR = finalPose(1:3,4)';
@@ -44,12 +40,16 @@ for i=1:steps
 end
 
 T = [rpy2r(theta(1,1),theta(2,1),theta(3,1)) x(:,1);zeros(1,3) 1];          % Create transformation of first point and angle
-
-% q0 = zeros(1,model.n);
-% q0 = [0.178 120*pi/180 -25.3*pi/180 -90*pi/180 60*pi/180 0 0];            % Initial guess for joint angles
-
-
 qMatrix(1,:) = model.ikcon(T,q0);                                            % Solve joint angles to achieve first waypoint
+
+% for i = 1:length(qMatrix)
+%     if qMatrix(i,1) < 0
+%         qMatrix(i,1) = 0.01;
+%     end
+%     if qMatrix > 5
+%         qMatrix(i,1) = 5;
+%     end
+% end
 
 % 1.4) Track the trajectory with RMRC
 for i = 1:steps-1
@@ -91,17 +91,25 @@ tic
 
 figure(1)
 hold on
-plot3(x(1,:),x(2,:),x(3,:),'k.','LineWidth',1)
+% plot3(x(1,:),x(2,:),x(3,:),'k.','LineWidth',1) % Plots straight line from initial to goal (remove in final release)
 
 for k = 1:length(qMatrix)
     model.animate(qMatrix(k,:));
     endEffectorPose = robot.model.fkine(robot.model.getpos());
+
+    while self.estop == 1
+        % this pauses the code while the estop is pressed
+        pause(1);
+        while self.robotRunning == 0
+            pause(1); %continue button while loop
+        end
+    end
     
     if obj == 0
         % Do nothing
     else
         % While the robot is moving, animate the obj movement
-        % obj.robotModel{1}.base = endEffectorPose.T; %* transl(0,0,0.10);
+        % obj.robotModel{1}.base = endEffectorPose.T; % do not uncomment, causes issues with rotation 
         obj.robotModel{1}.base.t = endEffectorPose.t;
         obj.robotModel{1}.animate(0);
     end
@@ -111,11 +119,11 @@ for k = 1:length(qMatrix)
     else
         % Also update the base location of the gripper
         finger1.model.base.t = endEffectorPose.t;
-        % finger1.model.base = endEffectorPose.T;
+        % finger1.model.base = endEffectorPose.T; % do not uncomment, causes issues with rotation 
         finger1.model.animate(finger1.model.getpos());
 
         finger2.model.base.t = endEffectorPose.t;
-        % finger2.model.base = endEffectorPose.T;
+        % finger2.model.base = endEffectorPose.T; % do not uncomment, causes issues with rotation 
         finger2.model.animate(finger2.model.getpos());
     end
 
